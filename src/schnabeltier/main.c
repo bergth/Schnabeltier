@@ -3,7 +3,7 @@
 
 int main()
 {
-    printf("Hello Schnabeltier !\n");
+    printf("Hello Schnabeltier ! lol \n");
     return 0;
 }
 
