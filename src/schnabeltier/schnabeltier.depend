@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1508773758 source:c:\users\theo\documents\github\schnabeltier\src\schnabeltier\individus.c
+	"individus.h"
+
+1508773766 c:\users\theo\documents\github\schnabeltier\src\schnabeltier\individus.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1508776045 source:c:\users\theo\documents\github\schnabeltier\src\schnabeltier\main.c
+	<stdio.h>
+	<stdlib.h>
+	"individus.h"
+	"utile.h"
+
+1508776052 source:c:\users\theo\documents\github\schnabeltier\src\schnabeltier\utile.c
+	"utile.h"
+
+1508775987 c:\users\theo\documents\github\schnabeltier\src\schnabeltier\utile.h
+	"stdio.h"
+	"stdlib.h"
+	"string.h"
+
