@@ -31,6 +31,8 @@ Individu * creer_manuel_individu ()
 //    ind->pere=NULL;
 //    ind->frere_g=NULL;
 
+    printf("Créer un individu\n\n");
+
     do
     {
         printf("Saisir la taille de l'animal en cm (entre 1cm et 10m (1000 cm)\n\n");
@@ -62,7 +64,7 @@ Individu * creer_manuel_individu ()
 
     do
     {
-        printf("Saisir la longueur de la fourrure: ï¿½paisse: 0, moyenne: 1, courte: 2\n");
+        printf("Saisir la longueur de la fourrure: épaisse: 0, moyenne: 1, courte: 2\n");
         scanf("%d", &fourrure);
 
     } while ((fourrure<0) || (fourrure>=NB_FOURRURES));
@@ -75,7 +77,7 @@ Individu * creer_manuel_individu ()
  #define ERR_COULEUR 1
  #define ERR_TEINTE 2
 
- int verif_individu(Individu * ind, int debugMode) // vï¿½rifie que la structure est cohï¿½rente. mettre 1 dans debugMode pour afficher
+ int verif_individu(Individu * ind, int debugMode) // vérifie que la structure est cohérente. mettre 1 dans debugMode pour afficher
  {
     int rc=0;
 
@@ -83,7 +85,7 @@ Individu * creer_manuel_individu ()
     if ((rc==1)&&(debugMode==1)) printf("ERREUR couleur\n");
     if (rc!=0) return(rc) ;
 
-    // A completer avec tous les tests de cohï¿½rence de la strcuture Individu
+    // A completer avec tous les tests de cohérence de la strcuture Individu
 
     if((rc==0) && (debugMode==1)) printf("Structure individu OK\n");
 
@@ -109,7 +111,7 @@ void test_individus()
     printf("Nom de l'espece:\n");
     scanf ("%s",nom);
 
-    printf("1er individu de l'espï¿½ce %s \n", nom);
+    printf("1er individu de l'espèce %s \n", nom);
     ancetre1 = creer_manuel_individu() ;
 
     afficher_individu(ancetre1);

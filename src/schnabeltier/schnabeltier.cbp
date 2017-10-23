@@ -31,9 +31,25 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="arbre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="arbre.h" />
+		<Unit filename="file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="file.h" />
+		<Unit filename="individus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="individus.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="utile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utile.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
