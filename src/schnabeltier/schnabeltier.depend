@@ -21,3 +21,30 @@
 	"stdlib.h"
 	"string.h"
 
+1509108371 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\individus.c
+	"individus.h"
+	"utile.h"
+
+1509108060 d:\francois-home\documents\github\schnabeltier\src\schnabeltier\individus.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1509108173 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\utile.c
+	"utile.h"
+
+1509108200 d:\francois-home\documents\github\schnabeltier\src\schnabeltier\utile.h
+	"stdio.h"
+	"stdlib.h"
+	"string.h"
+
+1509107854 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\arbre.c
+
+1509107854 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\file.c
+
+1509108292 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\main.c
+	<stdio.h>
+	<stdlib.h>
+	"individus.h"
+	"utile.h"
+

@@ -14,11 +14,12 @@ enum defFourrure {epaisse, moyenne, courte} ;
 typedef struct individu // niveau facile
 {
 
-    //caractéristiques
-    unsigned int taille;
-    unsigned int longueur_fourrure;
+    //caractéristique
+    float taille;
+    unsigned int type_peau;
+    float pilosite;
     unsigned int couleur;
-    unsigned int teinte;
+    unsigned int regime;
     //à complexifier
 
 } Individu;

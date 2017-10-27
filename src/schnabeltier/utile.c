@@ -48,3 +48,44 @@ int saisie_entier()
     }
     return res;
 }
+
+
+float saisie_float()
+{
+    char buf[40];
+    saisie_securisee(buf, 40);
+    float res = 0;
+    int i = 0;
+    int n=10;
+    for(; i < 40 && buf[i] != '\0'  && buf[i] != '.'; i++)
+    {
+        if(buf[i]>= '0' && buf[i] <= '9')
+        {
+            res *= 10;
+            res += buf[i] - '0';
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    i++;
+
+    for(; i<40 && buf[i] !='\0';i++)
+    {
+        if(buf[i]>= '0' && buf[i] <= '9')
+        {
+            res += ((buf[i] - '0')/n);
+            n = n*10;
+        }
+        else
+        {
+            return -1;
+        }
+
+    }
+
+    return res;
+}
+

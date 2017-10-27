@@ -1,4 +1,5 @@
 #include "individus.h"
+#include "utile.h"
 //char * couleurs[NB_COULEURS] = {"Blanc", "Beige", "Gris", "Marron", "Noir"} ;
 //int CouleurVersTeinte[NB_COULEURS] = {CLAIR, CLAIR, CLAIR, FONCE, FONCE} ;
 
@@ -12,17 +13,19 @@ int verif_individu(Individu *, int);
 
 /*-------------------FONCTIONS-----------------------*/
 
+
 Individu * creer_manuel_individu ()
 {
     char * couleurs[NB_COULEURS] = {"Blanc", "Beige", "Gris", "Marron", "Noir"} ;
-    int CouleurVersTeinte[NB_COULEURS] = {CLAIR, CLAIR, CLAIR, FONCE, FONCE} ;
 
     int taille = 0;
     int couleur = 0;
-    int fourrure;
+    int type_de_peau;
     Individu * ind ;
     int i ;
     char stCoul[50];
+    float pilositer;
+    int regime;
 
     ind = malloc(sizeof(Individu));
     if (ind==NULL) return (NULL) ;
@@ -35,12 +38,12 @@ Individu * creer_manuel_individu ()
 
     do
     {
-        printf("Saisir la taille de l'animal en cm (entre 1cm et 10m (1000 cm)\n\n");
+        printf("Saisir la taille de l'animal en cm \n\n");
+        taille=saisie_float();
 
-        scanf("%d", &taille);
-    } while( (taille<1) || (taille>1000) );
+    } while( (taille<1));
 
-
+    ind->taille = taille;
 
     couleur=NB_COULEURS ;
 
@@ -59,17 +62,35 @@ Individu * creer_manuel_individu ()
 
     ind->couleur=couleur ;
 
-    ind->teinte = CouleurVersTeinte[ind->couleur];
+    fflush(stdin);
+
+    //ind->teinte = CouleurVersTeinte[ind->couleur];
 
 
     do
     {
-        printf("Saisir la longueur de la fourrure: épaisse: 0, moyenne: 1, courte: 2\n");
-        scanf("%d", &fourrure);
+        printf("Saisir le type de peau : peaureux: 0, poilus: 1, cailleux: 2, plumeux: 3\n");
+        type_de_peau = saisie_entier();
 
-    } while ((fourrure<0) || (fourrure>=NB_FOURRURES));
+    } while ((type_de_peau<0) || (type_de_peau>=3));
 
-    ind->longueur_fourrure=fourrure;
+    do
+    {
+        printf("Saisir le pourcentage de pilosite: \n");
+        pilositer = saisie_float();
+
+    } while ((pilositer<0));
+
+    ind->pilosite = pilositer;
+
+    do
+    {
+
+        printf("regime alimentaire: 1: carnivore, 2: herbivore, 3: omnivores\n");
+        regime = saisie_entier();
+    }while(regime<0 || regime>3);
+
+    //ind->longueur_fourrure=fourrure;
 
  return(ind);
  }
