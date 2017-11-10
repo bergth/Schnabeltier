@@ -102,7 +102,7 @@ Individu * creer_manuel_individu ()
  {
     int rc=0;
 
-    if ((ind->couleur<0) || (ind->couleur>NB_COULEURS)) rc=1 ;
+    if (/*(ind->couleur<0) || */ (ind->couleur>NB_COULEURS)) rc=1 ;
     if ((rc==1)&&(debugMode==1)) printf("ERREUR couleur\n");
     if (rc!=0) return(rc) ;
 
@@ -116,6 +116,7 @@ Individu * creer_manuel_individu ()
 
 void afficher_individu(Individu *ind)
 {
+    ind++;
     printf("A completer\n");
 }
 
