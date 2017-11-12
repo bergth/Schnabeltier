@@ -35,6 +35,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="arbre.h" />
+		<Unit filename="croisement.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="file.c">
 			<Option compilerVar="CC" />
 		</Unit>
