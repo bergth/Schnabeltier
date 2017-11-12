@@ -1,0 +1,14 @@
+CC=gcc
+CFLAGS= -std=c99 -g3 -W -Wall -Wextra -Werror
+
+Debug: clean all
+cleanDebug: clean
+
+all: main
+
+graph.o: graph.c graph.h
+
+main: graph.o
+
+clean:
+	del  *.exe *.o
