@@ -34,6 +34,10 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="Makefile.win" />
+		<Unit filename="ancestry.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ancestry.h" />
 		<Unit filename="graph.c">
 			<Option compilerVar="CC" />
 		</Unit>

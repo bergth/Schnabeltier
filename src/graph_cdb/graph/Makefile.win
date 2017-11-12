@@ -7,6 +7,7 @@ cleanDebug: clean
 all: main
 
 graph.o: graph.c graph.h
+ancestry.o: ancestry.c ancestry.h
 
 main: graph.o
 
