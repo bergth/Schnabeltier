@@ -21,11 +21,11 @@
 	"stdlib.h"
 	"string.h"
 
-1510574945 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\individus.c
+1510590099 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\individus.c
 	"individus.h"
 	"utile.h"
 
-1510571707 d:\francois-home\documents\github\schnabeltier\src\schnabeltier\individus.h
+1510590099 d:\francois-home\documents\github\schnabeltier\src\schnabeltier\individus.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -42,18 +42,20 @@
 
 1509104254 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\file.c
 
-1510575159 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\main.c
+1510593157 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\main.c
 	<stdio.h>
 	<stdlib.h>
+	"individus.h"
 	"utile.h"
 	"croisement.h"
+	<time.h>
 
-1510573290 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\croisement.c
+1510593157 source:d:\francois-home\documents\github\schnabeltier\src\schnabeltier\croisement.c
 	<stdio.h>
 	<stdlib.h>
 	"croisement.h"
 
-1510575145 d:\francois-home\documents\github\schnabeltier\src\schnabeltier\croisement.h
+1510590099 d:\francois-home\documents\github\schnabeltier\src\schnabeltier\croisement.h
 	<stdio.h>
 	<stdlib.h>
 	"individus.h"

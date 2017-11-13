@@ -26,6 +26,8 @@ int croisement_discret(int trait1, int trait2)
 
         prob = rand()%100;
 
+
+
         if(prob > 75)
             return rec;
 
@@ -122,7 +124,7 @@ Individu* croisement(Individu* ind1, Individu* ind2)
 void test_croisement(void)
 {
     Individu parent1 = {25,1,53,1,2,15};
-    Individu parent2 = {63,1,78,3,2,15};
+    Individu parent2 = {63,1,78,0,2,15};
     Individu *enfant=NULL;
 
     //parent1 = malloc(sizeof(Individu));

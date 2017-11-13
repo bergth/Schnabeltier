@@ -4,9 +4,11 @@
 #include "individus.h"
 #include "utile.h"
 #include "croisement.h"
+#include <time.h>
 
 int main()
 {
+    srand(time(NULL));
 
     test_croisement();
 
