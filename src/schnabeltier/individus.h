@@ -20,6 +20,7 @@ typedef struct individu // niveau facile
     float pilosite;
     unsigned int couleur;
     unsigned int regime;
+    float independance;
     //à complexifier
 
 } Individu;

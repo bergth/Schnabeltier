@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include"croisement.h"
 
 int croisement_discret(int trait1, int trait2)
 {
@@ -98,5 +98,36 @@ float croisement_continue(float trait1, float trait2, float coef)
     return resultat;
 }
 
+Individu* croisement(Individu* ind1, Individu* ind2)
+{
+    Individu* enfant = NULL;
 
+    enfant = malloc(sizeof(Individu));
 
+    enfant->independance = ind1->independance;
+
+    enfant->couleur = croisement_discret(ind1->couleur,ind2->couleur);
+
+    enfant->regime = croisement_discret(ind1->regime,ind2->regime);
+
+    enfant->pilosite = croisement_continue(ind1->pilosite,ind2->pilosite,enfant->independance);
+
+    enfant->taille = croisement_continue(ind1->taille,ind2->taille,enfant->independance);
+
+    return enfant;
+}
+
+void test_croisement(void)
+{
+    Individu *parent1=NULL;
+    Individu *parent2=NULL;
+    Individu *enfant=NULL;
+
+    parent1 = creer_manuel_individu();
+
+    parent2 = creer_manuel_individu();
+
+    enfant = croisement(parent1,parent2);
+
+    afficher_individu(enfant);
+}
