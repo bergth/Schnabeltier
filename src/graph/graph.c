@@ -14,6 +14,7 @@ void free_graph(graph** g)
 {
     for(int i = 0; i < (*g)->max; i++)
     {
+        free((*g)->idTable[i].ind);
         free_list((*g)->idTable[i].child);
         free_list((*g)->idTable[i].parents);
     }
@@ -74,22 +75,25 @@ void child_born(graph* g, int par1, int par2)
 }
 
 
-void tmp_init_node(graph* g)
+void tmp_init_node(graph* g, int peau, int regime, int indepence)
 {
     node* new = g->idTable + g->order;
     new->parents = NULL;
     new->child = NULL;
-    new->ind = NULL;
+    new->ind = nouvel_individus(peau, regime, indepence);
     (g->order)++;
 }
 
-void tmp_inits_nodes(graph* g, int n)
+void tmp_inits_nodes(graph* g, int n, int peau, int regime, int indepence)
 {
     for(int i = 0; i < n; i++)
     {
-        tmp_init_node(g);
+        tmp_init_node(g, peau, regime, indepence);
     }
 }
+
+
+
 
 
 void toDot(const graph* g, const char* filename)

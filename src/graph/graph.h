@@ -31,6 +31,5 @@ void child_born(graph* g, int par1, int par2);
 
 void toDot(const graph* g, const char* filename);
 
-void tmp_init_node(graph* g);
-
-void tmp_inits_nodes(graph* g, int n);
+void tmp_init_node(graph* g, int peau, int regime, int indepence);
+void tmp_inits_nodes(graph* g, int n, int peau, int regime, int indepence);

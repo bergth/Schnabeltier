@@ -29,7 +29,7 @@ int main()
 {
     srand(time(NULL));
     graph* g = init_graph(10000);
-    tmp_inits_nodes(g, 100);
+    tmp_inits_nodes(g, 100, 2, 1, 15);
     printf("[%d]\n",g->order);
     for(int i = 0; i < 1000; i++)
     {
