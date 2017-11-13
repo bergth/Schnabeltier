@@ -92,7 +92,7 @@ Individu * creer_manuel_individu ()
 
     //ind->longueur_fourrure=fourrure;
 
- return(ind);
+    return(ind);
  }
 
  #define ERR_COULEUR 1
@@ -116,8 +116,20 @@ Individu * creer_manuel_individu ()
 
 void afficher_individu(Individu *ind)
 {
-    ind++;
-    printf("A completer\n");
+    char* peau[4] = {"peaureux","poilus","ecailleux","plumeux"};
+    char* couleurs[NB_COULEURS] = {"Blanc", "Beige", "Gris", "Marron", "Noir"} ;
+    char* regime[3]={"carnivore", "herbivore", "omnivore"};
+
+    printf("taille: %f\n",ind->taille);
+
+    printf("peau: %s",peau[ind->type_peau]);
+
+    printf("taux de pilosite: %f",ind->pilosite);
+
+    printf("couleur de peaux: %s",couleurs[ind->couleur]);
+
+    printf("regime alimentaire: %s",regime[ind->regime]);
+
 }
 
 #define TAILLE 50

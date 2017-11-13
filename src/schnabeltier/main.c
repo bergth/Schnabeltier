@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "individus.h"
+//#include "individus.h"
 #include "utile.h"
+#include "croisement.h"
 
 int main()
 {
 
+    test_croisement();
 
     test_individus();
     char buf[10];
