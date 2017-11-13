@@ -123,15 +123,17 @@ Individu* croisement(Individu* ind1, Individu* ind2)
 
 void test_croisement(void)
 {
-    Individu parent1 = {25,1,53,1,2,15};
-    Individu parent2 = {63,1,78,0,2,15};
+    //Individu parent1 = {25,1,53,1,2,15};
+    //Individu parent2 = {63,1,78,0,2,15};
     Individu *enfant=NULL;
 
     //parent1 = malloc(sizeof(Individu));
     //parent2 = malloc(sizeof(Individu));
 
 
-    enfant = croisement(&parent1,&parent2);
+    //enfant = croisement(&parent1,&parent2);
+
+    enfant = nouvel_individus(1,1,15);
 
     afficher_individu(enfant);
 

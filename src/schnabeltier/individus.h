@@ -35,5 +35,6 @@ Individu * creer_individu(Individu * pere, Individu * mere, unsigned int couleur
 void afficher_individu(Individu *);
 int verif_individu(Individu *, int);
 void test_individus();
+Individu* nouvel_individus(int peau, int regime, int indepence);
 
 #endif

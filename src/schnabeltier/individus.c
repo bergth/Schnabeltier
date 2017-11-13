@@ -132,6 +132,31 @@ void afficher_individu(Individu *ind)
 
 }
 
+Individu* nouvel_individus(int peau, int regime, int indepence)
+{
+    int couleur;
+    float pilositer, taille;
+    Individu* nouv = NULL;
+
+    couleur = rand() % 5;
+
+    pilositer = rand() % 100;
+
+    taille = rand() % 1500;
+
+    nouv = malloc(sizeof(Individu));
+
+    nouv->couleur = couleur;
+    nouv->type_peau = peau;
+    nouv->regime = regime;
+    nouv->pilosite = pilositer;
+    nouv->taille = taille;
+    nouv->independance = indepence;
+
+    return nouv;
+}
+
+
 #define TAILLE 50
 
 
