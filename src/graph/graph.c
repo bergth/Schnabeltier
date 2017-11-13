@@ -1,5 +1,5 @@
 #include "graph.h"
-
+#include "croisement.h"
 
 graph* init_graph(int max)
 {
@@ -63,7 +63,7 @@ void child_born(graph* g, int par1, int par2)
     node* npar1 = g->idTable + par1;
     node* npar2 = g->idTable + par2 ;
     node* new = g->idTable + g->order;
-    new->ind = (npar1->ind + npar2->ind) / 2;
+    new->ind = croisement(npar1->ind, npar2->ind);
     new->child = NULL;
     new->parents = NULL;
     add_list(&(new->parents), par1);
@@ -73,12 +73,13 @@ void child_born(graph* g, int par1, int par2)
     (g->order)++;
 }
 
+
 void tmp_init_node(graph* g)
 {
     node* new = g->idTable + g->order;
     new->parents = NULL;
     new->child = NULL;
-    new->ind = 42;
+    new->ind = NULL;
     (g->order)++;
 }
 

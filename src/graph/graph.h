@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "individus.h"
 
 typedef struct list{
     int id;
@@ -7,7 +8,8 @@ typedef struct list{
 }list;
 
 typedef struct node{
-    int ind;
+    int id;
+    Individu* ind;
     int dead;
     list* child;
     list* parents;
