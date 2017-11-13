@@ -1,3 +1,6 @@
+#ifndef INDIVIDU_H
+#define INDIVIDU_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,3 +35,5 @@ Individu * creer_individu(Individu * pere, Individu * mere, unsigned int couleur
 void afficher_individu(Individu *);
 int verif_individu(Individu *, int);
 void test_individus();
+
+#endif

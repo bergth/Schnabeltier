@@ -53,8 +53,8 @@ Individu * creer_manuel_individu ()
         for (i=0;i<NB_COULEURS;i++) printf("%s ",couleurs[i]);
         printf(")\n");
 
-        scanf("%s",stCoul);
-
+        //scanf("%s",stCoul);
+        saisie_securisee(stCoul, 50);
         couleur=0 ;
         while ( (couleur<NB_COULEURS) && (strcmp(stCoul,couleurs[couleur])!=0)) couleur++ ;
 
@@ -116,19 +116,19 @@ Individu * creer_manuel_individu ()
 
 void afficher_individu(Individu *ind)
 {
-    char* peau[4] = {"peaureux","poilus","ecailleux","plumeux"};
+   	char* peau[4] = {"peaureux","poilus","ecailleux","plumeux"};
     char* couleurs[NB_COULEURS] = {"Blanc", "Beige", "Gris", "Marron", "Noir"} ;
     char* regime[3]={"carnivore", "herbivore", "omnivore"};
 
     printf("taille: %f\n",ind->taille);
 
-    printf("peau: %s",peau[ind->type_peau]);
+    printf("peau: %s\n",peau[ind->type_peau]);
 
-    printf("taux de pilosite: %f",ind->pilosite);
+    printf("taux de pilosite: %f\n",ind->pilosite);
 
-    printf("couleur de peaux: %s",couleurs[ind->couleur]);
+    printf("couleur de peaux: %s\n",couleurs[ind->couleur]);
 
-    printf("regime alimentaire: %s",regime[ind->regime]);
+    printf("regime alimentaire: %s\n",regime[ind->regime]);
 
 }
 

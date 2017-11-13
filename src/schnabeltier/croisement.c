@@ -80,9 +80,9 @@ float croisement_continue(float trait1, float trait2, float coef)
 
     float resultat, t1, t2, coefmod, random;
 
-    t1 = trait1 * aleatoire();
+    t1 = (trait1 * aleatoire())/100;
 
-    t2 = trait2 * aleatoire();
+    t2 = (trait2 * aleatoire())/100;
 
     random = rand() % 2;
 
@@ -92,7 +92,7 @@ float croisement_continue(float trait1, float trait2, float coef)
         coefmod = coef;
 
 
-    resultat = ((t1*t2)/2) + coefmod;
+    resultat = ((t1+t2)/2) + coefmod;
 
 
     return resultat;
@@ -105,6 +105,8 @@ Individu* croisement(Individu* ind1, Individu* ind2)
     enfant = malloc(sizeof(Individu));
 
     enfant->independance = ind1->independance;
+
+    enfant->type_peau = croisement_discret(ind1->type_peau,ind2->type_peau);
 
     enfant->couleur = croisement_discret(ind1->couleur,ind2->couleur);
 
@@ -119,15 +121,17 @@ Individu* croisement(Individu* ind1, Individu* ind2)
 
 void test_croisement(void)
 {
-    Individu *parent1=NULL;
-    Individu *parent2=NULL;
+    Individu parent1 = {25,1,53,1,2,15};
+    Individu parent2 = {63,1,78,3,2,15};
     Individu *enfant=NULL;
 
-    parent1 = creer_manuel_individu();
+    //parent1 = malloc(sizeof(Individu));
+    //parent2 = malloc(sizeof(Individu));
 
-    parent2 = creer_manuel_individu();
 
-    enfant = croisement(parent1,parent2);
+    enfant = croisement(&parent1,&parent2);
 
     afficher_individu(enfant);
+
+    free(enfant);
 }
