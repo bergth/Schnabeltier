@@ -1,10 +1,10 @@
 #include "graph.h"
-#include "croisement.h"
 
 graph* init_graph(int max)
 {
     graph* g = malloc(sizeof(graph));
     g->order = 0;
+    g->min = -1;
     g->max = max;
     g->idTable = calloc(sizeof(node), max);
     return g;
@@ -76,26 +76,48 @@ void child_born(graph* g, int par1, int par2)
 }
 
 
-void tmp_init_node(graph* g, int peau, int regime, int indepence)
+void tmp_init_node(graph* g, int peau, int regime)
 {
     node* new = g->idTable + g->order;
     new->parents = NULL;
     new->child = NULL;
-    new->ind = nouvel_individus(peau, regime, indepence);
+    new->ind = nouvel_individus(peau, regime);
     (g->order)++;
 }
 
-void tmp_inits_nodes(graph* g, int n, int peau, int regime, int indepence)
+void tmp_inits_nodes(graph* g, int n, int peau, int regime)
 {
     for(int i = 0; i < n; i++)
     {
-        tmp_init_node(g, peau, regime, indepence);
+        tmp_init_node(g, peau, regime);
     }
 }
 
+void inits_nodes(graph* g, size_t n)
+{
+    for(size_t i = 0; i < n; i++)
+    {
+        node* new = g->idTable + g->order;
+        new->parents = NULL;
+        new->child = NULL;
+        new->dead = 0;
+        new->ind = creer_individu_random();
+        (g->order)++;
+    }
+}
 
-
-
+void kill_ind(graph* g,const Environnement* env)
+{
+    for(int i = 0; i < g->order; i++)
+    {
+        if(g->idTable[i].dead == 1)
+            g->min = i;
+        else
+        {
+            g->idTable[i].dead = survie_globale(g->idTable[i].ind,env);
+        }
+    }
+}
 
 void toDot(const graph* g, const char* filename)
 {

@@ -35,6 +35,8 @@ int main()
     {
         rand_acc(g);
     }
+    printf("[%d]\n", g->max);
+    afficher_individu(g->idTable[g->max/10].ind);
     toDot(g, "graph.dot");
     free_graph(&g);
     return 0;

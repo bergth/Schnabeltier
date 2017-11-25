@@ -1,60 +1,49 @@
 #include "individus.h"
 #include "utile.h"
-//char * couleurs[NB_COULEURS] = {"Blanc", "Beige", "Gris", "Marron", "Noir"} ;
-//int CouleurVersTeinte[NB_COULEURS] = {CLAIR, CLAIR, CLAIR, FONCE, FONCE} ;
 
-Individu * creer_manuel_individu ();
+const char * couleurs[NB_COULEURS] = {"Blanc", "Beige", "Gris", "Marron", "Noir"} ;
+const int CouleurVersTeinte[NB_COULEURS] = {CLAIR, CLAIR, CLAIR, FONCE, FONCE} ;
 
-Individu * creer_individu(Individu * pere, Individu * mere, unsigned int couleur) ;
-
-void afficher_individu(Individu *);
-
-int verif_individu(Individu *, int);
-
-/*-------------------FONCTIONS-----------------------*/
 
 
 Individu * creer_manuel_individu ()
 {
-    char * couleurs[NB_COULEURS] = {"Blanc", "Beige", "Gris", "Marron", "Noir"} ;
-
     int taille = 0;
     int couleur = 0;
-    int type_de_peau;
+    int fourrure;
+    int peau;
+    int regime;
+    int vitesse;
+    int predation;
     Individu * ind ;
     int i ;
     char stCoul[50];
-    float pilositer;
-    int regime;
 
     ind = malloc(sizeof(Individu));
     if (ind==NULL) return (NULL) ;
-
-//    ind->mere=NULL ;
-//    ind->pere=NULL;
-//    ind->frere_g=NULL;
 
     printf("Créer un individu\n\n");
 
     do
     {
-        printf("Saisir la taille de l'animal en cm \n\n");
-        taille=saisie_float();
+        printf("Saisir la taille de l'animal en cm (entre 1cm et 10m (1000 cm)\n\n");
 
-    } while( (taille<1));
+        scanf("%d", &taille);
+    }
+    while( (taille<1) || (taille>1000) );
 
-    ind->taille = taille;
+
 
     couleur=NB_COULEURS ;
 
     while (couleur>=NB_COULEURS)
     {
         printf("Saisir la couleur de l'animal (");
-        for (i=0;i<NB_COULEURS;i++) printf("%s ",couleurs[i]);
+        for (i=0; i<NB_COULEURS; i++) printf("%s ",couleurs[i]);
         printf(")\n");
 
-        //scanf("%s",stCoul);
-        saisie_securisee(stCoul, 50);
+        scanf("%s",stCoul);
+
         couleur=0 ;
         while ( (couleur<NB_COULEURS) && (strcmp(stCoul,couleurs[couleur])!=0)) couleur++ ;
 
@@ -62,38 +51,62 @@ Individu * creer_manuel_individu ()
 
     ind->couleur=couleur ;
 
-    fflush(stdin);
-
-    //ind->teinte = CouleurVersTeinte[ind->couleur];
+    ind->teinte = CouleurVersTeinte[ind->couleur];
 
 
     do
     {
-        printf("Saisir le type de peau : peaureux: 0, poilus: 1, cailleux: 2, plumeux: 3\n");
-        type_de_peau = saisie_entier();
+        printf("Saisir la longueur de la fourrure: épaisse: 0, moyenne: 1, courte: 2\n");
+        scanf("%d", &fourrure);
 
-    } while ((type_de_peau<0) || (type_de_peau>=3));
+    }
+    while ((fourrure<0) || (fourrure>=NB_FOURRURES));
 
-    do
-    {
-        printf("Saisir le pourcentage de pilosite: \n");
-        pilositer = saisie_float();
-
-    } while ((pilositer<0));
-
-    ind->pilosite = pilositer;
+    ind->longueur_fourrure=fourrure;
 
     do
     {
+        printf("Saisir le type de peau: 0: écailles, 1: plume, 2 :fourrure\n");
+        scanf("%d", &peau);
 
-        printf("regime alimentaire: 1: carnivore, 2: herbivore, 3: omnivores\n");
-        regime = saisie_entier();
-    }while(regime<0 || regime>3);
 
-    //ind->longueur_fourrure=fourrure;
+    }
+    while ((peau != 0) && (peau != 1) && (peau != 2));
+
+    ind->type_peau = peau;
+
+    do
+    {
+        printf("Saisir le régime : 0:herbivore, 1:carnivore, 2: omnivore\n");
+        scanf("%d", &regime);
+
+    }
+    while ((regime != 0) && (regime != 1) && (regime != 2));
+ind->regime = regime;
+
+do
+    {
+        printf("Saisir la vitesse de l'animal : //0:lent, 1: moyen, 2:rapide\n");
+        scanf("%d", &vitesse);
+
+    }
+    while ((vitesse != 0) && (vitesse != 1) && (vitesse != 2));
+
+    ind->vitesse = vitesse;
+
+      do
+    {
+        printf("Saisir la place de l'animal dans la chaine alimentaire (si predateur, ça tend vers 1, si proie, ça tend vers 0)\n");
+        scanf("%d", &predation);
+
+    }
+    while ((predation<0) || (predation>1));
+    ind->predation = predation;
+
 
     return(ind);
- }
+}
+
 
  #define ERR_COULEUR 1
  #define ERR_TEINTE 2
@@ -130,7 +143,7 @@ void afficher_individu(Individu *ind)
 
         printf("peau: %s\n",peau[ind->type_peau]);
 
-        printf("taux de pilosite: %f\n",ind->pilosite);
+       // printf("taux de pilosite: %f\n",ind->pilosite);
 
         printf("couleur de peaux: %s\n",couleurs[ind->couleur]);
 
@@ -138,15 +151,16 @@ void afficher_individu(Individu *ind)
     }
 }
 
-Individu* nouvel_individus(int peau, int regime, int indepence)
+Individu* nouvel_individus(int peau, int regime)
 {
     int couleur;
-    float pilositer, taille;
+    //float pilositer, 
+    float taille;
     Individu* nouv = NULL;
 
     couleur = rand() % 5;
 
-    pilositer = rand() % 100;
+    //pilositer = rand() % 100;
 
     taille = rand() % 1500;
 
@@ -155,9 +169,9 @@ Individu* nouvel_individus(int peau, int regime, int indepence)
     nouv->couleur = couleur;
     nouv->type_peau = peau;
     nouv->regime = regime;
-    nouv->pilosite = pilositer;
+   // nouv->pilosite = pilositer;
     nouv->taille = taille;
-    nouv->independance = indepence;
+    //nouv->independance = indepence;
 
     return nouv;
 }
@@ -185,3 +199,16 @@ void test_individus()
 
 }
 
+Individu* creer_individu_random()
+{
+    Individu* new = malloc(sizeof(Individu));
+    new->independance = rand_ab(0,100) / 100;
+    new->taille = rand_ab(0,200) / 100;
+    new->type_peau = rand_ab(0,2);
+    new->regime = rand_ab(0,2);
+    new->couleur = rand_ab(0,4);
+    new->teinte = rand_ab(0,4);
+    new->vitesse = rand_ab(0,2);
+    new->predation = rand_ab(0,100) / 100;
+    return new;
+}
