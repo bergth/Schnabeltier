@@ -1,10 +1,10 @@
 #include "graph.h"
 
-graph* init_graph(int max)
+graph* init_graph(size_t max)
 {
     graph* g = malloc(sizeof(graph));
     g->order = 0;
-    g->min = -1;
+    g->min = 0;
     g->max = max;
     g->idTable = calloc(sizeof(node), max);
     return g;
@@ -12,7 +12,7 @@ graph* init_graph(int max)
 
 void free_graph(graph** g)
 {
-    for(int i = 0; i < (*g)->max; i++)
+    for(size_t i = 0; i < (*g)->max; i++)
     {
         free((*g)->idTable[i].ind);
         free_list((*g)->idTable[i].child);
@@ -38,7 +38,7 @@ void free_list(list* l)
     }
 }
 
-void add_list(list** l, int nb)
+void add_list(list** l, size_t nb)
 {
     list* new = malloc(sizeof(list));
     new->id = nb;
@@ -54,7 +54,7 @@ void add_list(list** l, int nb)
     }
 }
 
-void child_born(graph* g, int par1, int par2)
+void child_born(graph* g, size_t par1, size_t par2)
 {
     if(g->order == g->max)
     {
@@ -65,7 +65,7 @@ void child_born(graph* g, int par1, int par2)
     node* npar2 = g->idTable + par2 ;
     node* new = g->idTable + g->order;
     new->ind = croisement(npar1->ind, npar2->ind);
-    printf("child: [%p]\n", new->ind);
+   // printf("child: [%p]\n", new->ind);
     new->child = NULL;
     new->parents = NULL;
     add_list(&(new->parents), par1);
@@ -108,10 +108,13 @@ void inits_nodes(graph* g, size_t n)
 
 void kill_ind(graph* g,const Environnement* env)
 {
-    for(int i = 0; i < g->order; i++)
+    for(size_t i = 0; i < g->order; i++)
     {
         if(g->idTable[i].dead == 1)
-            g->min = i;
+        {
+            if(i > g->min)
+                g->min = i;
+        }
         else
         {
             g->idTable[i].dead = survie_globale(g->idTable[i].ind,env);
@@ -128,12 +131,12 @@ void toDot(const graph* g, const char* filename)
         exit(EXIT_FAILURE);
     }
     fprintf(f, "digraph grap {\n");
-    for(int i = 0; i < g->order; i++)
+    for(size_t i = 0; i < g->order; i++)
     {
         list* tmp = g->idTable[i].child;
         while(tmp != NULL)
         {
-            fprintf(f, "%d -> %d\n", i, tmp->id);
+            fprintf(f, "%ld -> %ld\n", i, tmp->id);
             tmp = tmp->next;
         }
     }

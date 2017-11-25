@@ -21,9 +21,9 @@ int pourcentage_survie_jungle( Individu ind);
 int pourcentage_survie_jungle( Individu ind);
 int pourcentage_survie_montagne( Individu ind);
 int pourcentage_survie_savane( Individu ind);
-int pourcentage_survie_desert( Individu ind);
+float pourcentage_survie_desert( Individu ind);
 int pourcentage_survie_pleine( Individu ind);
-int pourcentage_survie_banquise( Individu ind);
+float pourcentage_survie_banquise( Individu ind);
 int survie_globale(const Individu* ind, const Environnement* env);
 
 #endif

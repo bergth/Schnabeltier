@@ -106,7 +106,7 @@ Individu* croisement(Individu* ind1, Individu* ind2)
 
     enfant = malloc(sizeof(Individu));
 
-//    enfant->independance = ind1->independance;
+    enfant->independance = ind1->independance;
 
     enfant->type_peau = croisement_discret(ind1->type_peau,ind2->type_peau);
 
@@ -117,6 +117,8 @@ Individu* croisement(Individu* ind1, Individu* ind2)
   //  enfant->pilosite = croisement_continue(ind1->pilosite,ind2->pilosite,enfant->independance);
 
     enfant->taille = croisement_continue(ind1->taille,ind2->taille,enfant->independance);
+    enfant->longueur_fourrure = croisement_continue(ind1->longueur_fourrure,ind2->longueur_fourrure, enfant->independance);
+
 
     return enfant;
 }

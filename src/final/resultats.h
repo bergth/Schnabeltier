@@ -1,35 +1,45 @@
+#ifndef RESULTATS_H
+#define RESULTATS_H
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "individus.h"
 #include "graph.h"
 
-typedef struct resultats{
+typedef struct stats{
 	int n;
-	Individu* moy;
-	Individu* variance;
-	Individu* equart;
+	float moy;
+	float variance;
+	float equart;
+} Stats;
+
+
+typedef struct resultats{
+	Stats* taille;
+    Stats* longueur_fourrure;
+    Stats* type_peau; 
+    Stats* regime; 
+    Stats* couleur;
+    Stats* teinte;
+    Stats* vitesse;
 } Resultats;
 
-/*
-typedef struct individu // niveau facile
-{
-    //caractéristiques
-    float independance;
-    float taille;
-    int longueur_fourrure;
-    int type_peau; //0: écailles, 1: plume, 2 :fourrure
-    int regime; //0:herbivore, 1:carnivore, 2: omnivore
-    int couleur;
-    int teinte;
-    int vitesse; //0:lent, 1: moyen, 2:rapide
-    float predation;            //c'est un pourcentage -> vers 1 : predateur (haut de la chaine alimentaire, vers 0 prédaté, vers 0.5: les deux)
-    float survie;               // pourcentage, il s'agit des chances de survie par rapport aux prédateurs --> c'est ce que l'on cherche dans la fonction
-} Individu;
-
-*/
-
-typedef float (*getter)(const graph*); 
 
 
+typedef float (*getter)(const graph*, size_t); 
 
-float resultats(const graph* g);
+float get_taille(const graph* g, size_t i);
+float get_longueur_fourrure(const graph* g, size_t i);
+float get_type_peau(const graph* g, size_t i);
+float get_regime(const graph* g, size_t i);
+float get_couleur(const graph* g, size_t i);
+float get_teinte(const graph* g, size_t i);
+float get_vitesse(const graph* g, size_t i);
+
+Stats* get_stats(const graph* g, getter get);
+Resultats* get_resultat(const graph* g);
+void print_resultat(const Resultats* r);
+void free_resultats(Resultats** r);
+
+#endif

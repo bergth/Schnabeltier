@@ -14,7 +14,7 @@ Individu * creer_manuel_individu ()
     int peau;
     int regime;
     int vitesse;
-    int predation;
+    float predation;
     Individu * ind ;
     int i ;
     char stCoul[50];
@@ -97,7 +97,7 @@ do
       do
     {
         printf("Saisir la place de l'animal dans la chaine alimentaire (si predateur, ça tend vers 1, si proie, ça tend vers 0)\n");
-        scanf("%d", &predation);
+        scanf("%e", &predation);
 
     }
     while ((predation<0) || (predation>1));
@@ -162,7 +162,7 @@ Individu* nouvel_individus(int peau, int regime)
 
     //pilositer = rand() % 100;
 
-    taille = rand() % 1500;
+    taille = (float)(rand() % 1500);
 
     nouv = malloc(sizeof(Individu));
 
@@ -202,13 +202,14 @@ void test_individus()
 Individu* creer_individu_random()
 {
     Individu* new = malloc(sizeof(Individu));
-    new->independance = rand_ab(0,100) / 100;
-    new->taille = rand_ab(0,200) / 100;
+    new->independance = (float)rand_ab(0,100) / 100;
+    new->longueur_fourrure = rand_ab(0,2);
+    new->taille = (float)rand_ab(0,200) / 100;
     new->type_peau = rand_ab(0,2);
     new->regime = rand_ab(0,2);
     new->couleur = rand_ab(0,4);
     new->teinte = rand_ab(0,4);
     new->vitesse = rand_ab(0,2);
-    new->predation = rand_ab(0,100) / 100;
+    new->predation = (float)rand_ab(0,100) / 100;
     return new;
 }

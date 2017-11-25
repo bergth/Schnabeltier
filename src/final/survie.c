@@ -219,11 +219,11 @@ int pourcentage_survie_savane( Individu ind)
 }
 
 
-int pourcentage_survie_desert( Individu ind)
+float pourcentage_survie_desert( Individu ind)
 {
- int taux_de_survie_peau=0;
- int taux_globale=0;
- int taux_de_survie_logueure_fourure=0;
+ float taux_de_survie_peau=0;
+ float taux_globale=0;
+ float taux_de_survie_logueure_fourure=0;
  if(ind.type_peau==0) // si le type de peau est écaille, dans la desert l'individu a un pourcentage de vie a 0%
  {
      taux_de_survie_peau=taux_de_survie_peau+0.00;
@@ -313,11 +313,11 @@ int pourcentage_survie_pleine( Individu ind)
 }
 
 
-int pourcentage_survie_banquise( Individu ind)
+float pourcentage_survie_banquise( Individu ind)
 {
- int taux_de_survie_peau=0;
- int taux_globale=0;
- int taux_de_survie_logueure_fourure=0;
+ float taux_de_survie_peau=0;
+ float taux_globale=0;
+ float taux_de_survie_logueure_fourure=0;
  if(ind.type_peau==0) // si le type de peau est écaille, dans la banquise l'individu a un pourcentage de vie a 50%
  {
      taux_de_survie_peau=taux_de_survie_peau+0.5;
@@ -393,7 +393,8 @@ int pourcentage_survie_banquise( Individu ind)
 
 int survie_globale(const Individu* ind, const Environnement* env)
 {
-    int res = 0;
+    (void)env;
+   /* int res = 0;
     switch(env->type)
     {
         case FORET:
@@ -418,9 +419,12 @@ int survie_globale(const Individu* ind, const Environnement* env)
             fprintf(stderr, "Erreur survie globale: type inconnu\n");
             exit(EXIT_FAILURE);
             break;
-    }
-    if(res > rand_ab(0,100))
-        return 0;
+    }*/
+    //float res = pourcentage_survie_desert(*ind);
+    float res = pourcentage_survie_banquise(*ind);
+    //printf("SURVIE: %f\n", res);
+    if(res* 100 > rand_ab(0,100))
+        return 1;
     
-    return 1;
+    return 0;
 }

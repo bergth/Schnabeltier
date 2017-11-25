@@ -11,7 +11,7 @@
 #include "survie.h"
 
 typedef struct list{
-    int id;
+    size_t id;
     struct list* next;
 }list;
 
@@ -25,18 +25,18 @@ typedef struct node{
 
 
 typedef struct graph{
-    int order;
-    int min;
-    int max;
+    size_t order;
+    size_t min;
+    size_t max;
     node* idTable;
 }graph;
 
-graph* init_graph(int order);
+graph* init_graph(size_t order);
 
 void free_graph(graph** g);
 void free_list(list* l);
 
-void child_born(graph* g, int par1, int par2);
+void child_born(graph* g, size_t par1, size_t par2);
 
 void toDot(const graph* g, const char* filename);
 
