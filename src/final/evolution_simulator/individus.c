@@ -207,7 +207,7 @@ Individu* creer_individu_random()
     new->taille = (float)rand_ab(80,200) / 100;
     new->type_peau = rand_ab(0,2);
     new->regime = rand_ab(0,2);
-    new->couleur = rand_ab(0,4);
+    new->couleur = rand_ab(0,7);
     new->teinte = rand_ab(0,4);
     new->vitesse = rand_ab(0,2);
     new->predation = (float)rand_ab(0,100) / 100;

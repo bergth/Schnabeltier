@@ -427,5 +427,6 @@ int survie_globale(const Individu* ind, const Environnement* env)
         return 1;
 
     return 0;*/
-    return ind->taille > 1;
+    //return ind->taille > 1;
+    return !(ind->type_peau == 1);
 }

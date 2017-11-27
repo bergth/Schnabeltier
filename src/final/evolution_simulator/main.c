@@ -10,9 +10,9 @@
 #include "utile.h"
 #include "resultats.h"
 
-#define NB_MAX_IND 100000
+#define NB_MAX_IND 150000
 #define NB_INIT_IND 100
-#define NB_CYBLE 100
+#define NB_CYBLE 1000
 
 void print_etat(const graph* G)
 {
@@ -54,7 +54,7 @@ int main()
 
 	for(int i = 0; i < NB_CYBLE; i++)
 	{
-	    printf("CYCLE: %d\n", i);
+	  //  printf("CYCLE: %d\n", i);
 		cycle(G,env);
 	}
 

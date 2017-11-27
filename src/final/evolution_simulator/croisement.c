@@ -70,8 +70,8 @@ float aleatoire(void)
 
     do
     {
-        retour = rand()%125;
-    }while(retour<25);
+        retour = rand()%120;
+    }while(retour<75);
 
     return retour;
 
@@ -84,15 +84,15 @@ float croisement_continue(float trait1, float trait2, float coef)
 
    // printf("trait1=%f trait2=%f\n",trait1,trait2);
 
-    /*t1 = (trait1 * aleatoire())/100;
+    t1 = (trait1 * aleatoire())/100;
 
-    t2 = (trait2 * aleatoire())/100;*/
+    t2 = (trait2 * aleatoire())/100;
 
-    resultat=(trait1+trait2)/2;
+    resultat=(t1+t2)/2;
 
 
 
-     /*if(resultat>coef)
+     if(resultat>coef)
      {
 
         random = rand() % 2;
@@ -104,7 +104,7 @@ float croisement_continue(float trait1, float trait2, float coef)
      }
 
      else
-        coefmod = 0;*/
+        coefmod = 0;
 
 
 
