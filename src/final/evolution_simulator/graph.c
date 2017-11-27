@@ -61,17 +61,22 @@ void child_born(graph* g, size_t par1, size_t par2)
         fprintf(stderr, "Erreur, graph max atteind\n");
         exit(EXIT_FAILURE);
     }
-    node* npar1 = g->idTable + par1;
-    node* npar2 = g->idTable + par2 ;
+    /*node* npar1 = g->idTable + par1;
+    node* npar2 = g->idTable + par2;
     node* new = g->idTable + g->order;
-    new->ind = croisement(npar1->ind, npar2->ind);
-   // printf("child: [%p]\n", new->ind);
-    new->child = NULL;
-    new->parents = NULL;
-    add_list(&(new->parents), par1);
-    add_list(&(new->parents), par2);
-    add_list(&(npar1->child), g->order);
-    add_list(&(npar2->child), g->order);
+    new->ind = croisement(npar1->ind, npar2->ind);*/
+
+   /* afficher_individu(g->idTable[par1].ind);
+    afficher_individu(g->idTable[par2].ind);*/
+
+    g->idTable[g->order].ind = croisement(g->idTable[par1].ind, g->idTable[par2].ind);
+    // printf("child: [%p]\n", new->ind);
+    g->idTable[g->order].child = NULL;
+    g->idTable[g->order].parents = NULL;
+    add_list(&(g->idTable[g->order].parents), par1);
+    add_list(&(g->idTable[g->order].parents), par2);
+    add_list(&(g->idTable[par1].child), g->order);
+    add_list(&(g->idTable[par2].child), g->order);
     (g->order)++;
 }
 

@@ -82,26 +82,48 @@ float croisement_continue(float trait1, float trait2, float coef)
 
     float resultat, t1, t2, coefmod, random;
 
-    t1 = (trait1 * aleatoire())/100;
+   // printf("trait1=%f trait2=%f\n",trait1,trait2);
 
-    t2 = (trait2 * aleatoire())/100;
+    /*t1 = (trait1 * aleatoire())/100;
 
-    random = rand() % 2;
+    t2 = (trait2 * aleatoire())/100;*/
 
-    if(random == 0)
-        coefmod = (-1)*coef;
-    else
-        coefmod = coef;
+    resultat=(trait1+trait2)/2;
 
 
-    resultat = ((t1+t2)/2) + coefmod;
 
+     /*if(resultat>coef)
+     {
+
+        random = rand() % 2;
+
+        if(random == 0)
+            coefmod = (-1)*coef;
+        else
+            coefmod = coef;
+     }
+
+     else
+        coefmod = 0;*/
+
+
+
+
+    //resultat = ((t1+t2)/2) + coefmod;
+  /*  if(resultat <= 0)
+    {
+        printf("[%f][%f][%f]\n", resultat, trait1, trait2);
+        exit(EXIT_FAILURE);
+    }*/
 
     return resultat;
 }
 
 Individu* croisement(Individu* ind1, Individu* ind2)
 {
+    //printf("In croisement: \n");
+   /* afficher_individu(ind1);
+    afficher_individu(ind2);*/
     Individu* enfant = NULL;
 
     enfant = malloc(sizeof(Individu));
@@ -114,7 +136,7 @@ Individu* croisement(Individu* ind1, Individu* ind2)
 
     enfant->regime = croisement_discret(ind1->regime,ind2->regime);
 
-  //  enfant->pilosite = croisement_continue(ind1->pilosite,ind2->pilosite,enfant->independance);
+    //enfant->pilosite = croisement_continue(ind1->pilosite,ind2->pilosite,enfant->independance);
 
     enfant->taille = croisement_continue(ind1->taille,ind2->taille,enfant->independance);
     enfant->longueur_fourrure = croisement_continue(ind1->longueur_fourrure,ind2->longueur_fourrure, enfant->independance);

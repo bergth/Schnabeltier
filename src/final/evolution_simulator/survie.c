@@ -421,10 +421,11 @@ int survie_globale(const Individu* ind, const Environnement* env)
             break;
     }*/
     //float res = pourcentage_survie_desert(*ind);
-    float res = pourcentage_survie_banquise(*ind);
+   /* float res = pourcentage_survie_banquise(*ind);
     //printf("SURVIE: %f\n", res);
     if(res* 100 > rand_ab(0,100))
         return 1;
-    
-    return 0;
+
+    return 0;*/
+    return ind->taille > 1;
 }

@@ -154,7 +154,7 @@ void afficher_individu(Individu *ind)
 Individu* nouvel_individus(int peau, int regime)
 {
     int couleur;
-    //float pilositer, 
+    //float pilositer,
     float taille;
     Individu* nouv = NULL;
 
@@ -202,9 +202,9 @@ void test_individus()
 Individu* creer_individu_random()
 {
     Individu* new = malloc(sizeof(Individu));
-    new->independance = (float)rand_ab(0,100) / 100;
+    new->independance = (float)rand_ab(10,100) / 100;
     new->longueur_fourrure = rand_ab(0,2);
-    new->taille = (float)rand_ab(0,200) / 100;
+    new->taille = (float)rand_ab(80,200) / 100;
     new->type_peau = rand_ab(0,2);
     new->regime = rand_ab(0,2);
     new->couleur = rand_ab(0,4);
