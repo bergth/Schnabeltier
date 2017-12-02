@@ -9,6 +9,7 @@
 #include "survie.h"
 #include "utile.h"
 #include "resultats.h"
+#include "mutation.h"
 
 #define NB_MAX_IND 150000
 #define NB_INIT_IND 100
@@ -62,6 +63,9 @@ int main()
 
 	free(env);
 	free_graph(&G);
+
+	//test_mutation();
+
 	printf("Good by Schnabeltier !\n");
 	return 0;
 }
