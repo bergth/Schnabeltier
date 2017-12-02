@@ -50,6 +50,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="mutation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mutation.h" />
 		<Unit filename="resultats.c">
 			<Option compilerVar="CC" />
 		</Unit>
