@@ -45,24 +45,33 @@ int main()
 {
 	srand(time(NULL));
 	printf("Hello Schnabeltier !\n");
-	Environnement* env =  Creer_Milieu ();
-	Afficher_Milieu(env);
 
-	graph* G = init_graph(NB_MAX_IND);
-	inits_nodes(G, NB_INIT_IND);
+    Environnement* env =  Creer_Milieu ();
+    Afficher_Milieu(env);
 
-	print_etat(G);
-
-	for(int i = 0; i < NB_CYBLE; i++)
+	for(int i=0; i<164; i++)
 	{
-	  //  printf("CYCLE: %d\n", i);
-		cycle(G,env);
+
+
+        /*Environnement* env =  Creer_Milieu ();
+        Afficher_Milieu(env);*/
+
+        graph* G = init_graph(NB_MAX_IND);
+        inits_nodes(G, NB_INIT_IND);
+
+        print_etat(G);
+
+        for(int i = 0; i < NB_CYBLE; i++)
+        {
+        //  printf("CYCLE: %d\n", i);
+            cycle(G,env);
+        }
+
+        print_etat(G);
+
+        //free(env);
+        free_graph(&G);
 	}
-
-	print_etat(G);
-
-	free(env);
-	free_graph(&G);
 
 	//test_mutation();
 

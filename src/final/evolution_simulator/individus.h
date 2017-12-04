@@ -24,7 +24,7 @@ typedef struct individu // niveau facile
     //caractéristiques
     float independance;
     float taille;
-    int longueur_fourrure;
+    float longueur_fourrure;
     int type_peau; //0: écailles, 1: plume, 2 :fourrure
     int regime; //0:herbivore, 1:carnivore, 2: omnivore
     int couleur;

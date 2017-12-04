@@ -202,8 +202,8 @@ void test_individus()
 Individu* creer_individu_random()
 {
     Individu* new = malloc(sizeof(Individu));
-    new->independance = (float)rand_ab(80,100) / 100;
-    new->longueur_fourrure = rand_ab(0,2);
+    new->independance = (float)rand_ab(10,20) / 100;
+    new->longueur_fourrure = ((float)rand_ab(10,200))/100.0;
     new->taille = (float)rand_ab(80,200) / 100;
     new->type_peau = rand_ab(0,2);
     new->regime = rand_ab(0,2);

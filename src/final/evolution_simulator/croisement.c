@@ -64,33 +64,40 @@ int croisement_discret(int trait1, int trait2)
 
 }
 
-float aleatoire(void)
+/*float aleatoire(void)
 {
     float retour;
 
     do
     {
-        retour = rand()%120;
+        retour = (float)rand()%120;
     }while(retour<75);
 
     return retour;
 
-}
+}*/
 
 float croisement_continue(float trait1, float trait2, float coef)
 {
 
-    float resultat, t1, t2, coefmod, random;
+    float resultat, t1, t2, coefmod;
+    int random;
 
    // printf("trait1=%f trait2=%f\n",trait1,trait2);
 
-    t1 = (trait1 * aleatoire())/100;
+    t1 = (trait1 * rand_ab(75,120))/100.0;
 
-    t2 = (trait2 * aleatoire())/100;
+    t2 = (trait2 * rand_ab(75,120))/100.0;
 
     resultat=(t1+t2)/2;
 
+    if(trait1<=0 || trait2<=0)
+    {
+        printf("[%f][%f][%f]\n", resultat, trait1, trait2);
+        exit(EXIT_FAILURE);
+    }
 
+   // printf("[%f][%f][%f]\n", resultat, trait1, trait2);
 
      if(resultat>coef)
      {
@@ -109,12 +116,14 @@ float croisement_continue(float trait1, float trait2, float coef)
 
 
 
-    //resultat = ((t1+t2)/2) + coefmod;
-  /*  if(resultat <= 0)
+    resultat = ((t1+t2)/2) + coefmod;
+    if(resultat <= 0.00)
     {
         printf("[%f][%f][%f]\n", resultat, trait1, trait2);
         exit(EXIT_FAILURE);
-    }*/
+    }
+
+
 
     return resultat;
 }
