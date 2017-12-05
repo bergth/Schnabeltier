@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="evolution_simulator" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/evolution_simulator" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/evolution_simulator" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="croisement.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="croisement.h" />
+		<Unit filename="environnement.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="environnement.h" />
+		<Unit filename="graph.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="graph.h" />
+		<Unit filename="individus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="individus.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="resultats.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="resultats.h" />
+		<Unit filename="survie.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="survie.h" />
+		<Unit filename="utile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utile.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
