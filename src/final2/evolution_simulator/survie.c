@@ -36,22 +36,25 @@ float survie_continue(float c_ind, float c_env)
 }
 
 
-int survie_globale(const Individu* ind, const Environnement* env)
+int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, const Environnement* env)
 {
-    //return 1;
-    
-    //return ind->longueur_fourrure < 10;
-    float pourcentage = survie_continue(ind->longueur_fourrure, env->temp);
-    //return pourcentage > 0.3;
+    int n = 0;
+    float pourcentage = 0;
+    for(size_t i = 0; i < n_trs; i++)
+    {
+        Traits* tr = ind->trs + i;
+        if(trs[i].cont)
+        {
+            pourcentage += survie_continue(tr->coef, env->eau);
+        }
+        else
+        {
+            pourcentage += survie_continue(tr->coef, env->eau);
+        }
+    }
+    pourcentage = pourcentage / (float)n;
     int rand = rand_ab(0,100);
     int res = (rand > pourcentage*100);
-    if(res)
-        return 1;
-
-    pourcentage = survie_continue(ind->palmes, env->eau);
-    rand = rand_ab(0,100);
-    res = (rand > pourcentage*100);
-    //printf("[%f][%d][%d]\n", pourcentage, rand, res);
     return res;
 }
 

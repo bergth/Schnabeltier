@@ -21,7 +21,7 @@ void print_etat(const graph* G)
 	free_resultats(&r);
 }
 
-void cycle(graph* G, const Environnement* env)
+void cycle(graph* G, const Environnement* env, int gen)
 {
 	kill_ind(G, env);
 	//printf("kill: [%f]\n", kill);
@@ -39,7 +39,7 @@ void cycle(graph* G, const Environnement* env)
 			par1 = rand_ab((int)G->min, (int)(G->order - 1));
 			par2 = rand_ab((int)(G->min), (int)(G->order - 1));
 		}while( n < 20 && (par1 == par2 || G->idTable[par1].dead || G->idTable[par2].dead));
-		child_born(G, (size_t)par1, (size_t)par2);
+		child_born(G, (size_t)par1, (size_t)par2, gen);
 	}
 }
 
@@ -62,7 +62,7 @@ int main()
 	for(int i = 0; i < NB_CYBLE; i++)
 	{
 	  //  printf("CYCLE: %d\n", i);
-		cycle(G,env);
+		cycle(G,env,i);
 	//	getchar();
 	}
 	print_etat(G);

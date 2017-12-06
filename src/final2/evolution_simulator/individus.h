@@ -12,24 +12,38 @@
 #define OMNIVORE  1
 #define CARNIVORE 2
 
-
-typedef struct individu
+typedef struct destraits
 {
+    int cont;
+    /* cas continu */
+    float min;
+    float max;
+    /* cas discret */
+    size_t n_dis;
+    char** nom_dis;
+    /* interactions */
+    size_t nb_inter;
+    size_t* inters;
+    char* nom;
+}Destraits;
+
+
+typedef struct traits{
+    int val;
+    float coef;
+}Traits;
+
+
+typedef struct individu{
+    int generation;
     float independance;
-    float taille;
-    float longueur_fourrure;
-    int couleur;
-    int regime;
-    float palmes;
-    float predation;
-    float taux_reprod;
-} Individu;
+    Traits* trs;
+}Individu;
 
 // Prototypes
 
 
-void afficher_individu(Individu *);
-Individu* creer_individu_random();
-
-
+void afficher_individu(const Individu * ind, const Destraits* dtrs, size_t n);
+Individu* creer_individu_random(const Destraits* dtrs, size_t n);
+void liberer_individu(Individu** ind);
 #endif

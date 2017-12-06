@@ -7,6 +7,7 @@ graph* init_graph(size_t max)
     g->min = 0;
     g->max = max;
     g->idTable = calloc(sizeof(node), max);
+    creer_individu_type(&(g->trs),&(g->nb_traits));
     return g;
 }
 
@@ -14,11 +15,17 @@ void free_graph(graph** g)
 {
     for(size_t i = 0; i < (*g)->max; i++)
     {
-        free((*g)->idTable[i].ind);
+        liberer_individu(&((*g)->idTable[i].ind));
         free_list((*g)->idTable[i].child);
         free_list((*g)->idTable[i].parents);
     }
     free((*g)->idTable);
+    for(size_t i = 0; i < (*g)->nb_traits; i++)
+    {
+        free((*g)->trs[i].nom);
+        free((*g)->trs[i].inters);
+    }
+    free((*g)->trs);
     free(*g);
     *g = NULL;
 }
@@ -54,7 +61,7 @@ void add_list(list** l, size_t nb)
     }
 }
 
-void child_born(graph* g, size_t par1, size_t par2)
+void child_born(graph* g, size_t par1, size_t par2, int gen)
 {
     if(g->order == g->max)
     {
@@ -62,7 +69,7 @@ void child_born(graph* g, size_t par1, size_t par2)
         exit(EXIT_FAILURE);
     }
    // assert( g->idTable[par1].ind->longueur_fourrure >= 0.0001 &&  g->idTable[par2].ind->longueur_fourrure >= 0.0001);
-    g->idTable[g->order].ind = croisement(g->idTable[par1].ind, g->idTable[par2].ind);
+    g->idTable[g->order].ind = croisement(g->idTable[par1].ind, g->idTable[par2].ind, g->trs, g->nb_traits, gen);
     g->idTable[g->order].child = NULL;
     g->idTable[g->order].parents = NULL;
     add_list(&(g->idTable[g->order].parents), par1);
@@ -81,7 +88,7 @@ void inits_nodes(graph* g, size_t n)
         new->parents = NULL;
         new->child = NULL;
         new->dead = 0;
-        new->ind = creer_individu_random();
+        new->ind = creer_individu_random(g->trs, g->nb_traits);
         (g->order)++;
     }
 }
@@ -100,7 +107,7 @@ float kill_ind(graph* g,const Environnement* env)
         else
         {
             n++;
-            g->idTable[i].dead = survie_globale(g->idTable[i].ind,env);
+            g->idTable[i].dead = survie_globale(g->idTable[i].ind,g->trs, g->nb_traits,env);
             if(g->idTable[i].dead)
                 d++;
         }
@@ -108,6 +115,33 @@ float kill_ind(graph* g,const Environnement* env)
     if(n == 0)
         return -1;
     return (float)d/(float)n;
+}
+
+
+void creer_trait_continue(Destraits* tr, float min, float max, size_t n_inter, const size_t* inters, const char* nom)
+{
+    tr->cont = 1;
+    tr->max = max;
+    tr->min = min;
+    tr->nb_inter = n_inter;
+    tr->inters = calloc(sizeof(size_t), n_inter);
+    for(size_t i = 0; i < n_inter; i++)
+    {
+        tr->inters[i] = inters[i];
+    }
+    tr->nom = strdup(nom);
+    tr->n_dis = 0;
+    tr->nom_dis = NULL;
+}
+
+void creer_individu_type(Destraits** trs, size_t* nb_traits)
+{
+    size_t inter1[1] = {0};
+    size_t inter2[1] = {2};
+    *trs = calloc(sizeof(Destraits), 2);
+    creer_trait_continue(*trs + 0,0,20,1,inter1,"poils");
+    creer_trait_continue(*trs + 1, 0, 10,1,inter2,"palmes");
+    *nb_traits = 2;
 }
 
 void toDot(const graph* g, const char* filename)

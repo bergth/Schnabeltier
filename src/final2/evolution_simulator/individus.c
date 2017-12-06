@@ -4,7 +4,7 @@
 
 
 
-Individu* creer_individu_random()
+Individu* creer_individu_random(const Destraits* dtrs, size_t n)
 {
 /*
     float independance;
@@ -16,29 +16,52 @@ Individu* creer_individu_random()
     float predation;
     float taux_reprod;
 */
-
-    Individu* new = malloc(sizeof(Individu));
-    new->independance = (float)rand_ab(10,20) / 100;
-    new->longueur_fourrure = (float)rand_ab(0,100)/(float)100;
-    new->palmes = (float)rand_ab(0,100)/(float)100;
-    //assert(new->longueur_fourrure >= 0.0001);
-    new->taille = (float)rand_ab(0,100) / 100;
-    new->regime = rand_ab(0,2);
-    new->couleur = rand_ab(0,7);
-    new->predation = (float)rand_ab(0,100) / 100;
-    new->taux_reprod = new->predation = (float)rand_ab(0,100) / 100;
+    Individu* new = calloc(sizeof(Individu),1);
+    new->generation = 0;
+    new->independance = (float)rand_ab(0,1000)/(float)1000;
+    new->trs = calloc(sizeof(Traits),n);
+    for(size_t i = 0; i < n; i++)
+    {
+        Traits* tr = new->trs + i;
+        if(dtrs[i].cont)
+        {
+            tr->coef = (float)rand_ab(0,1000)/(float)1000;
+        }
+        else
+        {
+            tr->val = rand_ab(0,(int)(dtrs[i].n_dis));
+        }
+    }
     return new;
 }
 
-void afficher_individu(Individu * ind)
+void afficher_individu(const Individu * ind, const Destraits* dtrs, size_t n)
 {
     printf("[INDIVIDU]-----------------------------------\n");
-    printf("Independance      : %f\n", ind->independance);
-    printf("Longueur_fourrure : %f\n", ind->longueur_fourrure);
-    printf("taille            : %f\n", ind->taille);
-    printf("regime            : %d\n", ind->regime);
-    printf("couleur           : %x\n", ind->couleur);
-    printf("predation         : %f\n", ind->predation);
-    printf("taux reprod       : %f\n", ind->taux_reprod);
+    for(size_t i = 0; i < n; i++)
+    {
+        const Traits* tr = ind->trs + i;
+        if(dtrs[i].cont)
+        {
+            printf("[%s]: [%f]\n", dtrs[i].nom, tr->coef);
+        }
+        else
+        {
+            printf("[%s]: [%s]\n", dtrs[i].nom, dtrs[i].nom_dis[tr->val]);
+        }
+    }
     printf("[FIN INDIVIDU]-------------------------------\n");
+}
+
+void liberer_individu(Individu** ind)
+{
+    if(ind != NULL && *ind != NULL)
+    {
+        if((*ind)->trs != NULL)
+        {
+            free((*ind)->trs);
+        }
+        free(*ind);
+        *ind = NULL;
+    }
 }

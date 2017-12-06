@@ -103,7 +103,7 @@ float croisement_continue(float trait1, float trait2, float coef)
     return resultat;
 }
 
-Individu* croisement(const Individu* ind1,const Individu* ind2)
+Individu* croisement(const Individu* ind1,const Individu* ind2,const Destraits* trs, size_t n_trs, int gen)
 {
 /*
     float independance;
@@ -117,18 +117,23 @@ Individu* croisement(const Individu* ind1,const Individu* ind2)
 */  
     //printf("[%f][%f]\n", ind1->longueur_fourrure, ind2->longueur_fourrure);
     //assert(ind1->longueur_fourrure >= 0.0001 && ind2->longueur_fourrure >= 0.0001);
-    Individu* enfant = NULL;
-
-    enfant = malloc(sizeof(Individu));
-
+    Individu* enfant = calloc(sizeof(Individu),1);
+    enfant->generation = gen;
     enfant->independance = ind1->independance;
-    enfant->taille = 0; // croisement_continue(ind1->taille, ind2->taille, enfant->independance);
-    enfant->longueur_fourrure = croisement_continue(ind1->longueur_fourrure, ind2->longueur_fourrure,enfant->independance);
-    enfant->couleur = 0; //croisement_discret(ind1->couleur, ind2->couleur);
-    enfant->regime = 0; //croisement_discret(ind1->regime,ind2->regime);
-    enfant->palmes = croisement_continue(ind1->palmes, ind2->palmes, enfant->independance);
-    enfant->predation = 0; //croisement_continue(ind1->predation, ind2->predation, enfant->independance);
-    enfant->taux_reprod = 0;// croisement_continue(ind1->taux_reprod, ind2->taux_reprod, enfant->independance);
+    enfant->trs = calloc(sizeof(Traits),n_trs);
+    for(size_t i = 0; i < n_trs; i++)
+    {
+        Traits* tr = enfant->trs + i;
+        if(0 == trs[i].cont)
+        {
+            tr->coef = croisement_continue(ind1->trs[i].coef, ind2->trs[i].coef, enfant->independance);
+        }
+        else
+        {
+            tr->coef = 0;
+            tr->val = 0;
+        }
+    }
 
     return enfant;
 }
