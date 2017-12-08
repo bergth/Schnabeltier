@@ -123,18 +123,16 @@ Individu* croisement(const Individu* ind1,const Individu* ind2,const Destraits* 
     enfant->trs = calloc(sizeof(Traits),n_trs);
     for(size_t i = 0; i < n_trs; i++)
     {
-        Traits* tr = enfant->trs + i;
-        if(0 == trs[i].cont)
+        //Traits* tr = enfant->trs + i;
+        if(1 == trs[i].cont)
         {
-            tr->coef = croisement_continue(ind1->trs[i].coef, ind2->trs[i].coef, enfant->independance);
+            enfant->trs[i].coef = croisement_continue(ind1->trs[i].coef, ind2->trs[i].coef, enfant->independance);
         }
         else
         {
-            tr->coef = 0;
-            tr->val = 0;
+            assert(0);
         }
     }
-
     return enfant;
 }
 

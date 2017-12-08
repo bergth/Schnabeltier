@@ -23,7 +23,6 @@ void free_graph(graph** g)
     for(size_t i = 0; i < (*g)->nb_traits; i++)
     {
         free((*g)->trs[i].nom);
-        free((*g)->trs[i].inters);
     }
     free((*g)->trs);
     free(*g);
@@ -118,17 +117,12 @@ float kill_ind(graph* g,const Environnement* env)
 }
 
 
-void creer_trait_continue(Destraits* tr, float min, float max, size_t n_inter, const size_t* inters, const char* nom)
+void creer_trait_continue(Destraits* tr, float min, float max, size_t inter, const char* nom)
 {
     tr->cont = 1;
     tr->max = max;
     tr->min = min;
-    tr->nb_inter = n_inter;
-    tr->inters = calloc(sizeof(size_t), n_inter);
-    for(size_t i = 0; i < n_inter; i++)
-    {
-        tr->inters[i] = inters[i];
-    }
+    tr->inter = inter;
     tr->nom = strdup(nom);
     tr->n_dis = 0;
     tr->nom_dis = NULL;
@@ -136,12 +130,11 @@ void creer_trait_continue(Destraits* tr, float min, float max, size_t n_inter, c
 
 void creer_individu_type(Destraits** trs, size_t* nb_traits)
 {
-    size_t inter1[1] = {0};
-    size_t inter2[1] = {2};
-    *trs = calloc(sizeof(Destraits), 2);
-    creer_trait_continue(*trs + 0,0,20,1,inter1,"poils");
-    creer_trait_continue(*trs + 1, 0, 10,1,inter2,"palmes");
-    *nb_traits = 2;
+    size_t n = 2;
+    *trs = calloc(sizeof(Destraits), n);
+    creer_trait_continue(*trs + 0,0,20,0,"poils");
+    creer_trait_continue(*trs + 1, 0, 10,4,"palmes");
+    *nb_traits = n;
 }
 
 void toDot(const graph* g, const char* filename)

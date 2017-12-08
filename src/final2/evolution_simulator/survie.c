@@ -29,7 +29,7 @@ float survie_continue(float c_ind, float c_env)
     float a = c_ind;
     float b = c_env;
     float res =  expf(-powf(2*(-b+a), 2));
-   // printf("[%f][%f] = [%f]\n", a, b, res);
+    //printf("[%f][%f] = [%f]\n", a, b, res);
     return res;
     //float dif = fabsf(fourrure - temp);
     //return expf(-powf(2*dif, 2));
@@ -40,21 +40,28 @@ int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, cons
 {
     int n = 0;
     float pourcentage = 0;
+    int rand = 0;
     for(size_t i = 0; i < n_trs; i++)
     {
         Traits* tr = ind->trs + i;
         if(trs[i].cont)
         {
-            pourcentage += survie_continue(tr->coef, env->eau);
+            n += 1;
+            //printf("[%s]\n",env->caracts[trs[i].inter].nom);
+            pourcentage = survie_continue(tr->coef, env->caracts[trs[i].inter].coef);
+            rand = rand_ab(0,100);
+            if(rand > pourcentage*100)
+                return 1;
         }
         else
         {
-            pourcentage += survie_continue(tr->coef, env->eau);
+            assert(0);
         }
     }
     pourcentage = pourcentage / (float)n;
-    int rand = rand_ab(0,100);
-    int res = (rand > pourcentage*100);
-    return res;
+    //printf("[%f]\n", pourcentage);
+    //int rand = rand_ab(0,100);
+    //int res = (rand > pourcentage*100);
+    return 0;
 }
 

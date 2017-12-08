@@ -22,8 +22,7 @@ typedef struct destraits
     size_t n_dis;
     char** nom_dis;
     /* interactions */
-    size_t nb_inter;
-    size_t* inters;
+    size_t inter;
     char* nom;
 }Destraits;
 

@@ -23,8 +23,9 @@ void print_etat(const graph* G)
 
 void cycle(graph* G, const Environnement* env, int gen)
 {
+	//float kill = 
 	kill_ind(G, env);
-	//printf("kill: [%f]\n", kill);
+
 	int par1 = 0;
 	int par2 = 0;
 
@@ -41,6 +42,7 @@ void cycle(graph* G, const Environnement* env, int gen)
 		}while( n < 20 && (par1 == par2 || G->idTable[par1].dead || G->idTable[par2].dead));
 		child_born(G, (size_t)par1, (size_t)par2, gen);
 	}
+	//getchar();
 }
 
 int main()
@@ -51,7 +53,7 @@ int main()
 	return 0;*/
 	srand((unsigned int)time(NULL));
 	printf("Hello Schnabeltier !\n");
-	Environnement* env =  creer_env(1,0,0,42);
+	Environnement* env =  creer_env(0,0,1,42);
 	Afficher_Milieu(env);
 
 	graph* G = init_graph(NB_MAX_IND);
@@ -65,12 +67,12 @@ int main()
 		cycle(G,env,i);
 	//	getchar();
 	}
-	print_etat(G);
+	//print_etat(G);
 	kill_ind(G, env);
 	print_etat(G);
 
-	free(env);
 	free_graph(&G);
+	Liberer_env(&env);
 	printf("Good by Schnabeltier !\n");
 	return 0;
 }

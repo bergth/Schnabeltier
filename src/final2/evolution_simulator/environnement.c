@@ -42,24 +42,41 @@ float definir_vegetation(float temp, float hum)
 Environnement* creer_env(float temp, float hum, float eau, float pcar)
 {
     Environnement* new = calloc(sizeof(Environnement), 1);
-    new->temp = temp;
-    new->hum = hum;
-    new->pcar = pcar;
-    new->cdom = (int)definir_couleur(temp, hum);
-    new->pveg = definir_vegetation(temp,hum);
-    new->eau = eau;
+    new->n_caracts = 5;
+    new->caracts = calloc(sizeof(Ecaract),5);
+    new->caracts[0].coef = temp;
+    new->caracts[0].nom = strdup("Temperature");
+    new->caracts[1].coef = hum;
+    new->caracts[1].nom = strdup("Humidité");    
+    new->caracts[2].coef = pcar;
+    new->caracts[2].nom = strdup("% carnivores");
+    new->caracts[3].coef = definir_vegetation(temp,hum);
+    new->caracts[3].nom = strdup("% vegetation");
+    new->caracts[4].coef = eau;
+    new->caracts[4].nom = strdup("% eau");
     return new;
 }
 
 
-void Afficher_Milieu (Environnement *milieu)
+void Afficher_Milieu (const Environnement* env)
 {
     printf("[ENVIRONNEMENT]----------\n");
-    printf("Temperature:       %f\n", milieu->temp);
-    printf("Humidité:          %f\n", milieu->hum);
-    printf("eau:   %f\n", milieu->eau);
-    printf("couleur dominante: %x\n", milieu->cdom);
-    printf("pourcentate veg:   %f\n", milieu->pveg);
-    printf("pourcentage car:   %f\n", milieu->pcar);
-    printf("[FIN ENVIRONNEMENT]------\n");
+   for(size_t i = 0; i < env->n_caracts; i++)
+   {
+        printf("[%s] -> [%f]\n", env->caracts[i].nom, env->caracts[i].coef);
+   }
+}
+
+void Liberer_env(Environnement** env)
+{
+    for(size_t i = 0; i < (*env)->n_caracts; i++)
+    {
+        if((*env)->caracts[i].nom)
+        {
+            free((*env)->caracts[i].nom);
+        }
+    }
+    free((*env)->caracts);
+    free(*env);
+    *env = NULL;
 }
