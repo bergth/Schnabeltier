@@ -20,6 +20,5 @@
 
 float survie_predateur(Environnement * environnement, Individu * ind);
 float survie_continue(float c_ind, float c_env);
-int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, const Environnement* env);
-
+int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, const Environnement* env, int gen);
 #endif

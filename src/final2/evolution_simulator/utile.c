@@ -96,3 +96,18 @@ int rand_ab(int a, int b)
     int res = rand()%(b-a) + a;
     return res;
 }
+
+void contat(char** str1, const char* str2)
+{
+    size_t a = strlen(*str1);
+    size_t b = strlen(str2);
+    size_t ab = a + b + 1;
+    char* tmp = realloc(*str1, ab);
+    if(NULL == tmp)
+    {
+        fprintf(stderr, "Error realloc contac\n");
+        exit(EXIT_FAILURE);
+    }
+    memcpy(tmp + a,str2,b + 1);
+    *str1 = tmp;
+}

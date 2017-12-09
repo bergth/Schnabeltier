@@ -92,7 +92,7 @@ void inits_nodes(graph* g, size_t n)
     }
 }
 
-float kill_ind(graph* g,const Environnement* env)
+float kill_ind(graph* g,const Environnement* env, int gen)
 {
     int n = 0;
     int d = 0;
@@ -106,7 +106,7 @@ float kill_ind(graph* g,const Environnement* env)
         else
         {
             n++;
-            g->idTable[i].dead = survie_globale(g->idTable[i].ind,g->trs, g->nb_traits,env);
+            g->idTable[i].dead = survie_globale(g->idTable[i].ind,g->trs, g->nb_traits,env, gen);
             if(g->idTable[i].dead)
                 d++;
         }
@@ -114,6 +114,17 @@ float kill_ind(graph* g,const Environnement* env)
     if(n == 0)
         return -1;
     return (float)d/(float)n;
+}
+
+void mute_ind(graph* g)
+{
+    for(size_t i = g->min; i < g->order; i++)
+    {
+        if(g->idTable[i].dead == 0)
+        {
+            mutation(g->idTable[i].ind, g->trs, g->nb_traits);
+        }
+    }
 }
 
 
@@ -130,10 +141,11 @@ void creer_trait_continue(Destraits* tr, float min, float max, size_t inter, con
 
 void creer_individu_type(Destraits** trs, size_t* nb_traits)
 {
-    size_t n = 2;
+    size_t n = 3;
     *trs = calloc(sizeof(Destraits), n);
     creer_trait_continue(*trs + 0,0,20,0,"poils");
     creer_trait_continue(*trs + 1, 0, 10,4,"palmes");
+    creer_trait_continue(*trs + 2,0,0,3,"herbi");
     *nb_traits = n;
 }
 

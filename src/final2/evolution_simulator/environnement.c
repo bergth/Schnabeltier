@@ -30,8 +30,8 @@ uint32_t definir_couleur(float temp, float hum)
 
 float definir_vegetation(float temp, float hum)
 {
-    float x = hum;
-    float y = temp;
+    float x = temp;
+    float y = hum;
     if(y == 0)
         return 0;
 

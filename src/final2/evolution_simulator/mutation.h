@@ -7,7 +7,7 @@
 #include <string.h>
 #include "individus.h"
 
-void mutation(Individu* ind);
+void mutation(Individu* ind, const Destraits* trs, size_t n);
 void test_mutation(void);
 int mutation_discrete(int trait, float independance, int modulo);
 float mutation_continue(float independance);
