@@ -69,6 +69,7 @@ void child_born(graph* g, size_t par1, size_t par2, int gen)
     }
    // assert( g->idTable[par1].ind->longueur_fourrure >= 0.0001 &&  g->idTable[par2].ind->longueur_fourrure >= 0.0001);
     g->idTable[g->order].ind = croisement(g->idTable[par1].ind, g->idTable[par2].ind, g->trs, g->nb_traits, gen);
+    mutation(g->idTable[g->order].ind,g->trs,g->nb_traits);
     g->idTable[g->order].child = NULL;
     g->idTable[g->order].parents = NULL;
     add_list(&(g->idTable[g->order].parents), par1);
@@ -98,7 +99,7 @@ float kill_ind(graph* g,const Environnement* env, int gen)
     int d = 0;
     for(size_t i = 0; i < g->order; i++)
     {
-        if(g->idTable[i].dead == 1)
+        if(g->idTable[i].dead)
         {
             if(i > g->min)
                 g->min = i;
@@ -106,7 +107,8 @@ float kill_ind(graph* g,const Environnement* env, int gen)
         else
         {
             n++;
-            g->idTable[i].dead = survie_globale(g->idTable[i].ind,g->trs, g->nb_traits,env, gen);
+            if(survie_globale(g->idTable[i].ind,g->trs, g->nb_traits,env, gen))
+            g->idTable[i].dead = gen;
             if(g->idTable[i].dead)
                 d++;
         }

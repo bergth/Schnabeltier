@@ -15,5 +15,13 @@ dbase.o: dbase.c dbase.h
 
 main: environnement.o individus.o utile.o survie.o croisement.o graph.o resultats.o mutation.o dbase.o
 
+notebook: main vogelbekdier.py example.ipynb
+	mkdir notebook
+	cp main notebook/
+	cp vogelbekdier.py notebook/
+	cp example.ipynb notebook/
+	jupyter-notebook --no-browser notebook/example.ipynb
+
 clean:
 	rm -rf main *.o *.db
+	rm -rf notebook
