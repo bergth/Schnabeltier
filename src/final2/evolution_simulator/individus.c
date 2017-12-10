@@ -2,20 +2,48 @@
 #include "utile.h"
 
 
+void creer_trait_continue(Destraits* tr, float min, float max, size_t inter, const char* nom)
+{
+    tr->cont = 1;
+    tr->max = max;
+    tr->min = min;
+    tr->inter = inter;
+    tr->nom = strdup(nom);
+    tr->n_dis = 0;
+    tr->nom_dis = NULL;
+}
+
+void creer_individu_type(Destraits** trs, size_t* nb_traits)
+{
+    size_t n = 4;
+    *trs = calloc(sizeof(Destraits), n);
+    creer_trait_continue(*trs + 0,0,20,0,"poils");
+    creer_trait_continue(*trs + 1, 0, 10,4,"palmes");
+    creer_trait_continue(*trs + 2,0,0,3,"herbi");
+    creer_trait_continue(*trs + 3,0,0,2,"carni");
+    *nb_traits = n;
+}
+
+Individu* creer_individu_vals(size_t n, const Individu_fix* ind)
+{
+    assert(ind->carni >= 0 && ind->herbi >= 0 && ind->palmes >= 0 && ind->poils >= 0);
+    assert(ind->carni <= 1 && ind->herbi <= 1 && ind->palmes <= 1 && ind->poils <= 1);
+    Individu* new = calloc(sizeof(Individu),1);
+    new->generation = 0;
+    new->independance = (float)rand_ab(0,1000)/(float)1000;
+    new->trs = calloc(sizeof(Traits),n);
+    assert(n == 4);
+    new->trs[0].coef = ind->poils;
+    new->trs[1].coef = ind->palmes;
+    new->trs[2].coef = ind->herbi;
+    new->trs[3].coef = ind->carni;
+    return new;
+
+}
 
 
 Individu* creer_individu_random(const Destraits* dtrs, size_t n)
 {
-/*
-    float independance;
-    float taille;
-    float longueur_fourrure;
-    int couleur;
-    int regime;
-    int palmes;
-    float predation;
-    float taux_reprod;
-*/
     Individu* new = calloc(sizeof(Individu),1);
     new->generation = 0;
     new->independance = (float)rand_ab(0,1000)/(float)1000;
@@ -34,6 +62,15 @@ Individu* creer_individu_random(const Destraits* dtrs, size_t n)
     }
     return new;
 }
+
+void afficher_int_fix(const Individu_fix* ind)
+{
+    printf("[INDIVIDU FIXE]----------\n");
+    printf("Poils -> [%f]\n", ind->poils);
+    printf("Palmes -> [%f]\n", ind->palmes);
+    printf("Carni -> [%f]\n", ind->carni);
+    printf("Herbi -> [%f]\n", ind->herbi);
+}    
 
 void afficher_individu(const Individu * ind, const Destraits* dtrs, size_t n)
 {

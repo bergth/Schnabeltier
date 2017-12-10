@@ -47,10 +47,10 @@ int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, cons
     float pourcentage = 0;
     int rand = 0;
     (void)gen;
-  /*  pourcentage = esperance_vie(gen - ind->generation);
+    pourcentage = esperance_vie(gen - ind->generation);
     rand = rand_ab(0,100);
     if(rand < pourcentage*100)
-        return 1;*/
+        return 1;
 
     for(size_t i = 0; i < n_trs; i++)
     {

@@ -55,13 +55,15 @@ void cycle(graph* G, const Environnement* env, size_t gen)
 	//getchar();
 }
 
-void run(size_t init, size_t nb_cycle, size_t max, const char* dbname)
+void run(size_t init, size_t nb_cycle, size_t max, Environnement* env, const Individu_fix* ind, const char* dbname)
 {
-	Environnement* env =  creer_env(0.5f,1.0f,1,43);
 	Afficher_Milieu(env);
-
+	if(ind != NULL)
+		afficher_int_fix(ind);
+	else
+		printf("Individu créés aléatoirement\n");
 	graph* G = init_graph(max);
-	inits_nodes(G, init);
+	inits_nodes(G, init, ind);
 
 	//print_etat(G);
 
@@ -82,10 +84,10 @@ void run(size_t init, size_t nb_cycle, size_t max, const char* dbname)
 
 int main(int argc, char*argv[])
 {
-	if(argc != 4)
+	if(argc != 8 && argc != 12)
 	{
 		printf("Erreur d'argument:\n");
-		printf("./main nb_depart, nb_cycle, nom_db\n");
+		printf("./main nb_depart, nb_cycle, nom_db, env*(4), [ind*(4)]\n");
 		exit(EXIT_FAILURE);
 	}
 	int nb_depart = atoi(argv[1]);
@@ -97,10 +99,28 @@ int main(int argc, char*argv[])
 	}
 	size_t nb_departabs = (size_t)abs(nb_depart);
 	size_t nb_cycleabs = (size_t)abs(nb_cycle);
+
+	float temp = ((float)atoi(argv[4]))/100;
+	float hum = ((float)atoi(argv[5]))/100;
+	float eau = ((float)atoi(argv[6]))/100;
+	float pcar = ((float)atoi(argv[7]))/100;
+
+	Environnement* env = creer_env(temp,hum,eau,pcar);
+
+	Individu_fix* ind = NULL;
+	Individu_fix stat;
+	if(argc == 12)
+	{
+		stat.poils = ((float)atoi(argv[8]))/100;
+		stat.palmes = ((float)atoi(argv[9]))/100;
+		stat.herbi = ((float)atoi(argv[10]))/100;
+		stat.carni = ((float)atoi(argv[11]))/100;
+		ind = &stat;
+	}
 	srand((unsigned int)time(NULL));
 	printf("Hello Schnabeltier !\n");
 
-    run(nb_departabs, nb_cycleabs, 1500000, argv[3]);
+    run(nb_departabs, nb_cycleabs, 1500000, env, ind, argv[3]);
 
 	printf("Good by Schnabeltier !\n");
 	return 0;

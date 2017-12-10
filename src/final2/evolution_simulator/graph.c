@@ -62,7 +62,7 @@ void add_list(list** l, size_t nb)
 
 void child_born(graph* g, size_t par1, size_t par2, int gen)
 {
-    if(g->order == g->max)
+    if(g->order >= g->max)
     {
         fprintf(stderr, "Erreur, graph max atteind\n");
         exit(EXIT_FAILURE);
@@ -80,7 +80,7 @@ void child_born(graph* g, size_t par1, size_t par2, int gen)
 }
 
 
-void inits_nodes(graph* g, size_t n)
+void inits_nodes(graph* g, size_t n, const Individu_fix* ind)
 {
     for(size_t i = 0; i < n; i++)
     {
@@ -88,7 +88,10 @@ void inits_nodes(graph* g, size_t n)
         new->parents = NULL;
         new->child = NULL;
         new->dead = 0;
-        new->ind = creer_individu_random(g->trs, g->nb_traits);
+        if(ind == NULL)
+            new->ind = creer_individu_random(g->trs, g->nb_traits);
+        else
+            new->ind = creer_individu_vals(g->nb_traits, ind);
         (g->order)++;
     }
 }
@@ -130,26 +133,6 @@ void mute_ind(graph* g)
 }
 
 
-void creer_trait_continue(Destraits* tr, float min, float max, size_t inter, const char* nom)
-{
-    tr->cont = 1;
-    tr->max = max;
-    tr->min = min;
-    tr->inter = inter;
-    tr->nom = strdup(nom);
-    tr->n_dis = 0;
-    tr->nom_dis = NULL;
-}
-
-void creer_individu_type(Destraits** trs, size_t* nb_traits)
-{
-    size_t n = 3;
-    *trs = calloc(sizeof(Destraits), n);
-    creer_trait_continue(*trs + 0,0,20,0,"poils");
-    creer_trait_continue(*trs + 1, 0, 10,4,"palmes");
-    creer_trait_continue(*trs + 2,0,0,3,"herbi");
-    *nb_traits = n;
-}
 
 void toDot(const graph* g, const char* filename)
 {

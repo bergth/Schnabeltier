@@ -19,12 +19,40 @@ Les algos si dessous sont FORTEMENT inspiré de la documentation
 officielle: https://plot.ly/python/
 '''
 
-def run_chnabeltier(depart, cycle, nom):
+class env:
+    temp = 0
+    hum = 0
+    eau = 0
+    car = 0
+
+    def __init__(self,temp, hum, eau, car):
+        self.temp = temp % 100
+        self.hum = hum % 100
+        self.car = car % 100
+        self.eau = eau % 100
+
+class ind:
+    poils = 0
+    palmes = 0
+    herbi = 0
+    carni = 0
+
+    def __init__(self,poils, palmes, herbi, carni):
+        self.poils = poils % 100
+        self.palmes = palmes % 100
+        self.herbi = herbi % 100
+        self.carni = carni % 100
+
+
+def run_chnabeltier(depart, cycle, nom, env, ind = None):
     file = Path(nom)
     if file.is_file():
         os.remove(file)
-    
-    args = ("./main", str(depart), str(cycle), nom)
+    args = None
+    if(ind == None):
+        args = ("./main", str(depart), str(cycle), nom, str(env.temp), str(env.hum), str(env.eau), str(env.car))
+    else:
+        args = ("./main", str(depart), str(cycle), nom, str(env.temp), str(env.hum), str(env.eau), str(env.car), str(ind.poils), str(ind.palmes), str(ind.herbi), str(ind.carni))
     popen = subprocess.Popen(args, stdout=subprocess.PIPE)
     popen.wait()
     print(popen.stdout.read().decode("utf8"))
@@ -38,10 +66,11 @@ def table_to_html(data):
     ))
 
 
+
 class vogel:
-    def __init__(self, depart = 100, cycle = 100, nomdb = "data.db"):
+    def __init__(self, env ,ind = None, depart = 100, cycle = 100, nomdb = "data.db"):
         init_notebook_mode(connected=True)
-        run_chnabeltier(depart,cycle,nomdb)
+        run_chnabeltier(depart,cycle,nomdb, env, ind)
         sql = sqlite3.connect(nomdb)
         self.sqlite = sql
         self.cursor = sql.cursor()
@@ -86,6 +115,25 @@ class vogel:
         self.cursor.execute("SELECT "+trait+",GEN FROM EVOLUTION WHERE DEAD = 0 ORDER BY GEN")
         return self.cursor.fetchall()
 
+    def _get_n_alive(self, i):
+        self.cursor.execute("SELECT Count(*) FROM EVOLUTION WHERE GEN <= "+str(i)+" AND DEAD >= "+str(i)+" ")
+        res = self.cursor.fetchall()
+        return res[0][0]
+
+    def draw_alive(self):
+        n = 0
+        L = []
+        while True:
+            res = self._get_n_alive(n)
+            if res == 0:
+                break
+            L.append(res)
+            n += 1
+        
+        y = L
+        x = list(range(0,len(y) - 1))
+        iplot([{"x": x, "y": y}])
+
     def couple_trait(self, trait):
         L = self._get_trait(trait)
         Ltr = []
@@ -111,8 +159,6 @@ class vogel:
             n = L[1][i]
             new[n].append(L[0][i])
         
-        for i in range(len(new)):
-            print(len(new[i]))
         return new
 
     def simple_stat(self):
@@ -126,17 +172,17 @@ class vogel:
             data.append(data_tr)
         table_to_html(data)
     
-    def draw_moyenne_trait(self,trait):
+    def draw_stats(self,trait):
         L = self.list_by_gen(self.couple_trait(trait))
-        print(str(L[0][0]) + " " + str(L[1][0]))
+        #print(str(L[0][0]) + " " + str(L[1][0]))
         moy = [0]*len(L)
         minl = [0]*len(L)
         maxl = [0]*len(L)
         equart = [0]*len(L)
         for i in range(len(L)):
             moy[i] = mean(L[i])
-            minl[i] = percentile(L[i], 33) #min(L[i])
-            maxl[i] = percentile(L[i], 66) #max(L[i])
+            minl[i] = percentile(L[i], 17) #min(L[i])
+            maxl[i] = percentile(L[i], 83) #max(L[i])
             equart[i] = stdev(L[i])
         list_x = list(range(len(L)-1))
         y = maxl
@@ -145,7 +191,7 @@ class vogel:
             x = list_x,
             y = minl,
             mode = 'lines',
-            name = 'min'
+            name = '1/6'
         )
 
         trace1 = go.Scatter(
@@ -159,7 +205,7 @@ class vogel:
             x = list_x,
             y = maxl,
             mode = 'lines',
-            name = 'max'
+            name = '5/6'
         )
 
         trace3 = go.Scatter(

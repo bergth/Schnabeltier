@@ -1,4 +1,4 @@
-CC=gcc -lsqlite3 -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak -fsanitize=undefined
+CC=gcc -lsqlite3 #-fno-omit-frame-pointer -fsanitize=address -fsanitize=leak -fsanitize=undefined
 CFLAGS= -g -lm -W -Wall -Wextra -Werror -Wconversion
 
 all: main

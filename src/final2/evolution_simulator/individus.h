@@ -39,10 +39,20 @@ typedef struct individu{
     Traits* trs;
 }Individu;
 
+typedef struct individu_fix{
+    float poils;
+    float palmes;
+    float herbi;
+    float carni;
+}Individu_fix;
+
+
 // Prototypes
 
 
 void afficher_individu(const Individu * ind, const Destraits* dtrs, size_t n);
+void afficher_int_fix(const Individu_fix* ind);
 Individu* creer_individu_random(const Destraits* dtrs, size_t n);
+Individu* creer_individu_vals(size_t n, const Individu_fix* ind);
 void liberer_individu(Individu** ind);
 #endif

@@ -46,7 +46,7 @@ void toDot(const graph* g, const char* filename);
 
 void tmp_init_node(graph* g, int peau, int regime);
 void tmp_inits_nodes(graph* g, int n, int peau, int regime);
-void inits_nodes(graph* G, size_t n);
+void inits_nodes(graph* g, size_t n, const Individu_fix* ind);
 float kill_ind(graph* g,const Environnement* env, int gen);
 void mute_ind(graph* g);
 void creer_individu_type(Destraits** trs, size_t* nb_traits);
