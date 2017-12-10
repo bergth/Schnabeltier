@@ -60,7 +60,7 @@ void add_list(list** l, size_t nb)
     }
 }
 
-void child_born(graph* g, size_t par1, size_t par2, int gen)
+void child_born(graph* g, size_t par1, size_t par2, size_t gen)
 {
     if(g->order >= g->max)
     {
@@ -95,7 +95,7 @@ void inits_nodes(graph* g, size_t n, const Individu_fix* ind)
     }
 }
 
-float kill_ind(graph* g,const Environnement* env, int gen)
+float kill_ind(graph* g,const Environnement* env, size_t gen)
 {
     int n = 0;
     int d = 0;
@@ -110,7 +110,7 @@ float kill_ind(graph* g,const Environnement* env, int gen)
         {
             n++;
             if(survie_globale(g->idTable[i].ind,g->trs, g->nb_traits,env, gen))
-            g->idTable[i].dead = gen;
+            g->idTable[i].dead = (int)gen;
             if(g->idTable[i].dead)
                 d++;
         }

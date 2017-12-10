@@ -1,6 +1,6 @@
-CC=gcc -lsqlite3 -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak -fsanitize=undefined
-CFLAGS= -g -lm -W -Wall -Wextra -Werror -Wconversion
-
+CC=gcc -lsqlite3 -lm -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak -fsanitize=undefined
+CFLAGS= -g -W -Wall -Wextra -Werror -Wconversion
+.PHONY: all notebook clean
 all: main
 
 graph.o: graph.c graph.h
@@ -14,13 +14,15 @@ resultats.o: resultats.c resultats.h
 dbase.o: dbase.c dbase.h
 
 main: environnement.o individus.o utile.o survie.o croisement.o graph.o resultats.o mutation.o dbase.o
+	$(CC) $(FLAGS) main.c environnement.o individus.o utile.o survie.o croisement.o graph.o resultats.o mutation.o dbase.o   -o main
 
 notebook: main vogelbekdier.py example.ipynb
+	rm -rm notebook
 	mkdir notebook
 	cp main notebook/
 	cp vogelbekdier.py notebook/
 	cp example.ipynb notebook/
-	jupyter-notebook --no-browser notebook/example.ipynb
+	jupyter-notebook notebook/
 
 clean:
 	rm -rf main *.o *.db

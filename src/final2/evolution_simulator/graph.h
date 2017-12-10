@@ -48,8 +48,7 @@ void free_list(list* l);
 // naissance d'un enfant:
 // g: le graphe
 // par1, par2: index des parents
-void child_born(graph* g, size_t par1, size_t par2, int gen);
-
+void child_born(graph* g, size_t par1, size_t par2, size_t gen);
 // dessine le graph au format graphviz (debug)
 // g: le graphe
 // filename: chemin du fichier dot résultant
@@ -65,8 +64,7 @@ void inits_nodes(graph* g, size_t n, const Individu_fix* ind);
 // g: le graphe
 // env: l'environnement
 // gen: la génération pendant laquelle les individus sont tués
-float kill_ind(graph* g,const Environnement* env, int gen);
-
+float kill_ind(graph* g,const Environnement* env, size_t gen);
 // créé une description d'individu type
 // trs: pointeurs sur le nouveau tableau de traits
 // nb_traits: pointeur sur le nouveau nombre de traits

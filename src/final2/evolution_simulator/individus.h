@@ -27,7 +27,7 @@ typedef struct traits{
 
 // structure individu
 typedef struct individu{
-    int generation;  // génération de l'individe
+    size_t generation;  // génération de l'individe
     float independance; // indépendance de l'individu (utile croisement.h)
     Traits* trs; // liste de traits
 }Individu;

@@ -32,7 +32,7 @@ float croisement_continue(float trait1, float trait2, float coef)
     return resultat;
 }
 
-Individu* croisement(const Individu* ind1,const Individu* ind2, size_t n_trs, int gen)
+Individu* croisement(const Individu* ind1,const Individu* ind2, size_t n_trs, size_t gen)
 {
     Individu* enfant = calloc(sizeof(Individu),1);
     enfant->generation = gen;

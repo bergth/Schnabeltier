@@ -29,7 +29,7 @@ void print_etat(const graph* G)
 // effectue un cycle
 void cycle(graph* G, const Environnement* env, size_t gen)
 {
-	kill_ind(G, env,(int)gen);
+	kill_ind(G, env,gen);
 
 	int par1 = 0;
 	int par2 = 0;
@@ -43,12 +43,15 @@ void cycle(graph* G, const Environnement* env, size_t gen)
 			n++;
 			par1 = rand_ab((int)G->min, (int)(G->order - 1));
 			par2 = rand_ab((int)(G->min), (int)(G->order - 1));
-		}while( n < 20 && (par1 == par2 || G->idTable[par1].dead || G->idTable[par2].dead));
-
-		int nb_child = rand_ab(1,8);
-		for(int i = 0; i < nb_child; i++)
+		}while( n < 20 && (par1 == par2 || G->idTable[par1].dead || G->idTable[par2].dead
+										|| G->idTable[par1].ind->generation == gen || G->idTable[par2].ind->generation == gen));
+		if(n < 20)
 		{
-			child_born(G, (size_t)par1, (size_t)par2, (int)gen);
+			int nb_child = rand_ab(1,8);
+			for(int i = 0; i < nb_child; i++)
+			{
+				child_born(G, (size_t)par1, (size_t)par2, gen);
+			}
 		}
 	}
 }

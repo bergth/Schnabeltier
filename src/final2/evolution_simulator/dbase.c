@@ -75,7 +75,7 @@ char* create_insert_rq(const Destraits* trs, const Individu* ind, size_t n, size
     contat(&sql,str);
     contat(&sql,",");
 
-    sprintf(str, "%d", ind->generation);
+    sprintf(str, "%ld", ind->generation);
     contat(&sql,str);
     contat(&sql,",");
 

@@ -11,25 +11,15 @@ import plotly.plotly as py
 from IPython.display import display, HTML
 from graphviz import Digraph
 from numpy import percentile
+from numpy import linalg
+from numpy import vstack
+from numpy import ones
 
 '''
 Les algos si dessous sont FORTEMENT inspiré de la documentation
 officielle: https://plot.ly/python/
 '''
 
-styles = {
-    'graph': {
-        'label': 'Graph',
-        'fontsize': '16',
-        'fontcolor': 'white',
-        'bgcolor': '#333333',
-        'rankdir': 'BT',
-    },
-    'nodes': {
-        'shape': 'point',
-        'color': 'red',
-    },
-}
 
 
 
@@ -217,10 +207,13 @@ class vogel:
     
     # affiche des statistiques basiques
     def simple_stat(self):
-        data = [["trait","n", "moyenne", "equart-type", "min", "max"]]
         traits = self.list_traits()
+        data = [["trait","n", "moyenne", "equart-type", "min", "max"]]
         for tr in traits:
             L = self.couple_trait_alive(tr)
+            if(len(L[0]) == 0):
+                print("Aucun survivant")
+                return None
             data_tr = [tr]
             data_tr.append(len(L[0]))
             data_tr.append(mean(L[0]))
@@ -276,11 +269,13 @@ class vogel:
         iplot([trace0,trace1,trace2,trace3])
 
 
-    def draw_tree(self,i, trait, n = None):
-        if(n != None and n > 5):
+    def draw_tree(self,i, trait, n = 3):
+        if(n > 5):
             print("n too big (<5)")
             return None
+        n -= 1
         q = Queue()
+        marque = []
         q.put(i)
         q.put(None)
         dot = Digraph(comment="tree based on "+str(i))
@@ -289,28 +284,117 @@ class vogel:
         while(not (q.empty())):
             cur = q.get()
             if(cur == None):
+                if(n <= 0):
+                    return dot
+                else:
+                    n -= 1
+                if(not(q.empty())):
+                    q.put(None)
+            else:
+                if(not(cur in marque)):
+                    marque.append(cur)
+                    pars = self._get_parents_ind(cur)
+                    if pars:
+                        q.put(pars[0])
+                        q.put(pars[1])
+                        val1 = round(self._get_trait_ind(pars[0],trait),3)
+                        val2 = round(self._get_trait_ind(pars[1],trait),3)
+                        dot.node(str(pars[0]),str(val1))
+                        dot.node(str(pars[1]),str(val2))
+                        dot.edge(str(pars[0]),str(cur))
+                        dot.edge(str(pars[1]),str(cur))
+        return dot
+
+    def _get_list_moy_gen(self, i, trait, n = None):
+        q = Queue()
+        q.put(i)
+        q.put(None)
+        L = []
+        Lcurr = []
+        while(not (q.empty())):
+            cur = q.get()
+
+            if(cur == None):
                 if(n != None):
                     if(n <= 0):
                         break
                     else:
                         n -= 1
-                        print("## "+str(n)+" ##")
+                if(len(Lcurr) != 0):
+                    L.append(mean(Lcurr))
+                else:
+                    L.append(0)
+                Lcurr = []
                 if(not(q.empty())):
                     q.put(None)
             else:
-                print(cur)
+                Lcurr.append(self._get_trait_ind(cur,trait))
                 pars = self._get_parents_ind(cur)
-
+                
                 if pars:
                     q.put(pars[0])
                     q.put(pars[1])
-                    val1 = round(self._get_trait_ind(pars[0],trait),3)
-                    val2 = round(self._get_trait_ind(pars[1],trait),3)
-                    dot.node(str(pars[0]),str(val1))
-                    dot.node(str(pars[1]),str(val2))
-                    dot.edge(str(pars[0]),str(cur))
-                    dot.edge(str(pars[1]),str(cur))
-        return dot
+        return L
+    
+    def _get_list_par1(self, i, trait):
+        L = []
+        cur1 = i
+        cur2 = i
+        while True:
+            val1 = self._get_trait_ind(cur1,trait)
+            val2 = self._get_trait_ind(cur2,trait)
+            eq = abs(val1-val2)
+            L.append(eq)
+            pars1 = self._get_parents_ind(cur1)
+            pars2 = self._get_parents_ind(cur2)
+            if(pars1 == None or pars2 == None):
+                break
+            else:
+                val1 = self._get_trait_ind(pars1[0],trait)
+                val2 = self._get_trait_ind(pars1[1],trait)
+                if(val1 > val2):
+                    cur1 = pars1[0]
+                else:
+                    cur1 = pars1[1]
+
+                val1 = self._get_trait_ind(pars2[0],trait)
+                val2 = self._get_trait_ind(pars2[1],trait)
+                if(val1 > val2):
+                    cur2 = pars2[1]
+                else:
+                    cur2 = pars2[0]
+        return L
+
+    def trend(sefl,L):
+        x = list(range(0,len(L)))
+        assert(len(x) == len(L))
+        A = vstack([x, ones(len(x))]).T
+        (m,c) = linalg.lstsq(A,L)[0]
+        res = list(range(0,len(L)))
+        for i in range(len(L)):
+            res[i] = m*x[i]+c
+        return res
+
+    def draw_eq_gen(self, i, trait):
+        L = self._get_list_par1(i, trait)
+        L.reverse()
+        list_y = self.trend(L)
+        list_x = list(range(0,len(list_y)))
+
+        trace0 = go.Scatter(
+            x = list_x,
+            y = L,
+            mode = 'lines',
+            name = 'natural'
+        )
+
+        trace1 = go.Scatter(
+            x = list_x,
+            y = list_y,
+            mode = 'lines',
+            name = 'trend'
+        )
+        iplot([trace0,trace1])
 
     def draw_graph_gen(self, i):
         L = self._get_n_generation(i)
@@ -324,5 +408,3 @@ class vogel:
             dot.edge(str(elt[2]),str(elt[0]))
             dot.edge(str(elt[1]),str(elt[0]))
         return dot
-
-        

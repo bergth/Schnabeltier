@@ -3,7 +3,7 @@
 #include "survie.h"
 #include "utile.h"
 
-float esperance_vie(int x)
+float esperance_vie(size_t x)
 {
     return powf(10,-7)*powf((float)x,7);
 }
@@ -17,7 +17,7 @@ float survie_continue(float c_ind, float c_env)
 }
 
 
-int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, const Environnement* env, int gen)
+int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, const Environnement* env, size_t gen)
 {
     int n = 0;
     float pourcentage = 0;
