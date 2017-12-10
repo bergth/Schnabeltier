@@ -93,7 +93,6 @@ void insert_value(sqlite3* db, const Destraits* trs, const Individu* ind, size_t
 {
     char* sql = create_insert_rq(trs,ind,n,i,dead);
     char *zErrMsg = 0;
-    //printf("[%s]\n", sql);
     int rc = sqlite3_exec(db,sql,callback,0, &zErrMsg);
     if(rc != SQLITE_OK)
     {
@@ -109,7 +108,6 @@ void create_table(sqlite3* db, const Destraits* trs,size_t n_trs)
 {
     char* sql = create_table_rq(trs,n_trs);
     char *zErrMsg = 0;
-    //printf("[%s]\n", sql);
     int rc = sqlite3_exec(db,sql,callback,0, &zErrMsg);
     if(rc != SQLITE_OK)
     {

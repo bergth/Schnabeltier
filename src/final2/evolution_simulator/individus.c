@@ -9,8 +9,6 @@ void creer_trait_continue(Destraits* tr, float min, float max, size_t inter, con
     tr->min = min;
     tr->inter = inter;
     tr->nom = strdup(nom);
-    tr->n_dis = 0;
-    tr->nom_dis = NULL;
 }
 
 void creer_individu_type(Destraits** trs, size_t* nb_traits)
@@ -57,7 +55,7 @@ Individu* creer_individu_random(const Destraits* dtrs, size_t n)
         }
         else
         {
-            tr->val = rand_ab(0,(int)(dtrs[i].n_dis));
+            assert(0);
         }
     }
     return new;
@@ -84,7 +82,7 @@ void afficher_individu(const Individu * ind, const Destraits* dtrs, size_t n)
         }
         else
         {
-            printf("[%s]: [%s]\n", dtrs[i].nom, dtrs[i].nom_dis[tr->val]);
+            assert(0);
         }
     }
     printf("[FIN INDIVIDU]-------------------------------\n");

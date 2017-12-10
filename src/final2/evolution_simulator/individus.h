@@ -18,9 +18,6 @@ typedef struct destraits
     /* cas continu */
     float min;
     float max;
-    /* cas discret */
-    size_t n_dis;
-    char** nom_dis;
     /* interactions */
     size_t inter;
     char* nom;

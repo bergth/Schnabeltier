@@ -5,29 +5,6 @@
 #include "environnement.h"
 
 
-
-
-
-uint32_t definir_couleur(float temp, float hum)
-{
-    (void)hum;
-    (void)temp;
-    /*uint8_t r = 0, b = 0;
-    if(temp >= 30)
-    {
-        r += ((temp - 30)/20) * 255;
-    }
-    else
-    {
-        b += ((100 + temp)/130) * 255;
-    }
-    uint32_t res = 0;
-    res += (r << 2);
-    res += (255 << 1);
-    res += b;*/
-    return 0xFFFFFF;
-}
-
 float definir_vegetation(float temp, float hum)
 {
     float x = temp;

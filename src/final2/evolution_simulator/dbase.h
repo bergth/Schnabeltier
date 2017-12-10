@@ -6,7 +6,6 @@
 #include "utile.h"
 #include "graph.h"
 
-//static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 
 sqlite3* create_database(const char* filename);
 

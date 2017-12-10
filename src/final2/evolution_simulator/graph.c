@@ -67,7 +67,6 @@ void child_born(graph* g, size_t par1, size_t par2, int gen)
         fprintf(stderr, "Erreur, graph max atteind\n");
         exit(EXIT_FAILURE);
     }
-   // assert( g->idTable[par1].ind->longueur_fourrure >= 0.0001 &&  g->idTable[par2].ind->longueur_fourrure >= 0.0001);
     g->idTable[g->order].ind = croisement(g->idTable[par1].ind, g->idTable[par2].ind, g->trs, g->nb_traits, gen);
     mutation(g->idTable[g->order].ind,g->trs,g->nb_traits);
     g->idTable[g->order].child = NULL;

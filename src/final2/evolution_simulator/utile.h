@@ -13,5 +13,4 @@ float saisie_float();
 int rand_ab(int a, int b);
 void contat(char** str1, const char* str2);
 
-
 #endif
