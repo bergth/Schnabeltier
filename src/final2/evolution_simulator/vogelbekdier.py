@@ -74,6 +74,7 @@ class vogel:
         sql = sqlite3.connect(nomdb)
         self.sqlite = sql
         self.cursor = sql.cursor()
+        self.cycle = cycle
         
 
     def _get_deads(self):
@@ -116,17 +117,15 @@ class vogel:
         return self.cursor.fetchall()
 
     def _get_n_alive(self, i):
-        self.cursor.execute("SELECT Count(*) FROM EVOLUTION WHERE GEN <= "+str(i)+" AND DEAD >= "+str(i)+" ")
+        self.cursor.execute("SELECT Count(*) FROM EVOLUTION WHERE GEN <= "+str(i)+" AND (DEAD = 0 OR DEAD >= "+str(i)+")")
         res = self.cursor.fetchall()
         return res[0][0]
 
     def draw_alive(self):
         n = 0
         L = []
-        while True:
+        while n < self.cycle:
             res = self._get_n_alive(n)
-            if res == 0:
-                break
             L.append(res)
             n += 1
         
@@ -162,13 +161,16 @@ class vogel:
         return new
 
     def simple_stat(self):
-        data = [["trait", "moyenne", "equart-type"]]
+        data = [["trait","n", "moyenne", "equart-type", "min", "max"]]
         traits = self.list_traits()
         for tr in traits:
             L = self.couple_trait_alive(tr)
             data_tr = [tr]
+            data_tr.append(len(L[0]))
             data_tr.append(mean(L[0]))
             data_tr.append(stdev(L[0]))
+            data_tr.append(min(L[0]))
+            data_tr.append(max(L[0]))
             data.append(data_tr)
         table_to_html(data)
     

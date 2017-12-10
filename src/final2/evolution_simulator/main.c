@@ -52,7 +52,6 @@ void cycle(graph* G, const Environnement* env, size_t gen)
 			child_born(G, (size_t)par1, (size_t)par2, (int)gen);
 		}
 	}
-	//getchar();
 }
 
 void run(size_t init, size_t nb_cycle, size_t max, Environnement* env, const Individu_fix* ind, const char* dbname)
@@ -65,15 +64,13 @@ void run(size_t init, size_t nb_cycle, size_t max, Environnement* env, const Ind
 	graph* G = init_graph(max);
 	inits_nodes(G, init, ind);
 
-	//print_etat(G);
-
 	for(size_t i = 0; i < nb_cycle; i++)
 	{
-	  //  printf("CYCLE: %d\n", i);
 		cycle(G,env,i);
-	//	getchar();
 	}
-	//print_etat(G);
+	printf("\nFin de la simulation\n");
+	printf("Nombre de cycles: [%ld]\n", nb_cycle);
+	printf("Nombre d'individus créés: [%ld]\n", G->order);
 	printf("Writing database [%s], please wait...\n", dbname);
 	write_database(dbname,G);
 	printf("Done.\n");
