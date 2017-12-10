@@ -17,6 +17,22 @@ Les algos si dessous sont FORTEMENT inspiré de la documentation
 officielle: https://plot.ly/python/
 '''
 
+styles = {
+    'graph': {
+        'label': 'Graph',
+        'fontsize': '16',
+        'fontcolor': 'white',
+        'bgcolor': '#333333',
+        'rankdir': 'BT',
+    },
+    'nodes': {
+        'shape': 'point',
+        'color': 'red',
+    },
+}
+
+
+
 # classe décrivant un environnement
 class env:
     temp = 0
@@ -94,8 +110,13 @@ class vogel:
 
     def _get_trait_ind(self,i, trait):
         self.cursor.execute("SELECT "+trait+" FROM EVOLUTION WHERE ID = "+str(i))
-        res = res = self.cursor.fetchall()
+        res = self.cursor.fetchall()
         return res[0][0]
+
+    def _get_n_generation(self, i):
+        self.cursor.execute("SELECT ID,PAR1,PAR2 FROM EVOLUTION WHERE GEN = "+str(i))
+        res = self.cursor.fetchall()
+        return res
 
 
     # retourne tableau d'individus mort triés par date de mort
@@ -290,3 +311,18 @@ class vogel:
                     dot.edge(str(pars[0]),str(cur))
                     dot.edge(str(pars[1]),str(cur))
         return dot
+
+    def draw_graph_gen(self, i):
+        L = self._get_n_generation(i)
+        print("Nombre d'individus à la génération "+str(i)+" : "+str(len(L)))
+        dot = Digraph(comment="graph based on gen"+str(i))
+        dot.attr('node',shape='point')
+        for elt in L:
+            dot.node(str(elt[0]), color='red')
+            dot.node(str(elt[1]))
+            dot.node(str(elt[2]))
+            dot.edge(str(elt[2]),str(elt[0]))
+            dot.edge(str(elt[1]),str(elt[0]))
+        return dot
+
+        
