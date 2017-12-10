@@ -3,7 +3,6 @@ import subprocess
 import os
 from statistics import *
 from pathlib import Path
-from plotly import __version__
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 from plotly.offline import init_notebook_mode, iplot
 import plotly.graph_objs as go
@@ -11,14 +10,12 @@ import plotly.plotly as py
 from IPython.display import display, HTML
 from numpy import percentile
 
-
-import pandas as pd
-
 '''
 Les algos si dessous sont FORTEMENT inspiré de la documentation
 officielle: https://plot.ly/python/
 '''
 
+# classe décrivant un environnement
 class env:
     temp = 0
     hum = 0
@@ -31,6 +28,7 @@ class env:
         self.car = car % 100
         self.eau = eau % 100
 
+# classe décrivant un individu
 class ind:
     poils = 0
     palmes = 0
@@ -43,7 +41,14 @@ class ind:
         self.herbi = herbi % 100
         self.carni = carni % 100
 
-
+'''
+classe faisant appel au fichier compilé
+depart: nombre d'individu au départ
+cycle: nombre de cycle
+nom: nom de la base de donnée
+env: environnement
+ind: individu type de départ (facultatif)
+'''
 def run_chnabeltier(depart, cycle, nom, env, ind = None):
     file = Path(nom)
     if file.is_file():
@@ -57,6 +62,7 @@ def run_chnabeltier(depart, cycle, nom, env, ind = None):
     popen.wait()
     print(popen.stdout.read().decode("utf8"))
 
+# affiche un tableau en html
 def table_to_html(data):
     display(HTML(
         '<table><tr>{}</tr></table>'.format(
@@ -66,7 +72,7 @@ def table_to_html(data):
     ))
 
 
-
+# classe décrivant une simulation
 class vogel:
     def __init__(self, env ,ind = None, depart = 100, cycle = 100, nomdb = "data.db"):
         init_notebook_mode(connected=True)
@@ -76,13 +82,14 @@ class vogel:
         self.cursor = sql.cursor()
         self.cycle = cycle
         
-
+    # retourne tableau d'individus mort triés par date de mort
     def _get_deads(self):
         L = []
         for row in self.cursor.execute("SELECT DEAD FROM EVOLUTION ORDER BY DEAD"):
             L.append(row[0])
         return L
 
+    # retourne tableau avec le nombre de mort par génération
     def _get_n_deads(self):
         deads = self._get_deads()
         maxl = max(deads)
@@ -92,11 +99,13 @@ class vogel:
             L[i - 1] += 1
         return L
 
+    # dessine le graph de mort par génération
     def draw_death(self):
         y = self._get_n_deads()
         x = list(range(0,len(y) - 1))
         iplot([{"x": x, "y": y}])
 
+    # retourne la liste des traits
     def list_traits(self):
         self.cursor.execute("PRAGMA table_info(EVOLUTION);")
         sql = self.cursor.fetchall()
@@ -108,19 +117,23 @@ class vogel:
         L.remove("ID")
         return L
 
+    # retourne la liste de traits (trait) par individus
     def _get_trait(self, trait):
         self.cursor.execute("SELECT "+trait+",GEN FROM EVOLUTION ORDER BY GEN")
         return self.cursor.fetchall()
     
+    # retourne la liste de traits (trait) par individus vivant
     def _get_trait_alive(self, trait):
         self.cursor.execute("SELECT "+trait+",GEN FROM EVOLUTION WHERE DEAD = 0 ORDER BY GEN")
         return self.cursor.fetchall()
 
+    #retourne le nombre de personne vivante à la génération i
     def _get_n_alive(self, i):
         self.cursor.execute("SELECT Count(*) FROM EVOLUTION WHERE GEN <= "+str(i)+" AND (DEAD = 0 OR DEAD >= "+str(i)+")")
         res = self.cursor.fetchall()
         return res[0][0]
 
+    # dessine le graph de nombre de personne vivante par génération
     def draw_alive(self):
         n = 0
         L = []
@@ -133,6 +146,7 @@ class vogel:
         x = list(range(0,len(y) - 1))
         iplot([{"x": x, "y": y}])
 
+    #retourne un couple avec deux tableaux en fonction du trait: ltr: les traits, Lgen: la génération de l'individu
     def couple_trait(self, trait):
         L = self._get_trait(trait)
         Ltr = []
@@ -142,6 +156,7 @@ class vogel:
             Lgen.append(i[1])
         return (Ltr,Lgen)
 
+    #retourne un couple avec deux tableaux en fonction du trait: ltr: les traits, Lgen: la génération de l'individu vivant
     def couple_trait_alive(self, trait):
         L = self._get_trait_alive(trait)
         Ltr = []
@@ -151,6 +166,7 @@ class vogel:
             Lgen.append(i[1])
         return (Ltr,Lgen)
 
+    # créér une liste de liste à partir d'un couple: liste de trait par génération
     def list_by_gen(self,L):
         maxL = max(L[1])
         new = [[] for i in range((maxL+1))]
@@ -159,7 +175,8 @@ class vogel:
             new[n].append(L[0][i])
         
         return new
-
+    
+    # affiche des statistiques basiques
     def simple_stat(self):
         data = [["trait","n", "moyenne", "equart-type", "min", "max"]]
         traits = self.list_traits()
@@ -174,6 +191,7 @@ class vogel:
             data.append(data_tr)
         table_to_html(data)
     
+    # dessines des statistiques en fonction du temps
     def draw_stats(self,trait):
         L = self.list_by_gen(self.couple_trait(trait))
         #print(str(L[0][0]) + " " + str(L[1][0]))
@@ -217,6 +235,3 @@ class vogel:
             name = 'equart type'
         )
         iplot([trace0,trace1,trace2,trace3])
-def test_plot():
-    iplot([{"x": [1, 2, 3], "y": [3, 1, 6]}])
-

@@ -7,7 +7,14 @@
 #include <string.h>
 #include "individus.h"
 
-void mutation(Individu* ind, const Destraits* trs, size_t n);
+// effectue la mutation sur un individu
+// ind: l'individu
+// n: nombre de traits
+void mutation(Individu* ind, size_t n);
+
+// calcule une nouvelle valeurs a ajouter pour la mutation
+// independance: l'indépendance de l'individu
+// retourne une nouvelle valeurs a ajouter pour la mutation
 float mutation_continue(float independance);
 
 #endif // MUTATION_H_INCLUDED

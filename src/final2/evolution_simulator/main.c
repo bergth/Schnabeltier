@@ -16,6 +16,7 @@
 #define NB_INIT_IND 100
 #define NB_CYBLE 100
 
+// affiche l'état du graph avec resultat.h
 void print_etat(const graph* G)
 {
 	Resultats* r = get_resultat(G);
@@ -25,12 +26,10 @@ void print_etat(const graph* G)
 	printf("order: [%ld]\n", G->order);
 }
 
+// effectue un cycle
 void cycle(graph* G, const Environnement* env, size_t gen)
 {
-	//float kill = 
 	kill_ind(G, env,(int)gen);
-
-	//mute_ind(G);
 
 	int par1 = 0;
 	int par2 = 0;
@@ -54,6 +53,13 @@ void cycle(graph* G, const Environnement* env, size_t gen)
 	}
 }
 
+// fait tourner la simulation
+// init: nombre d'individu initiaux
+// nb_cycle: nombre de cycles
+// max: nombre maximum d'individus
+// env: environnement
+// ind: individu fixe
+// dbname: chemin de la base de donnée
 void run(size_t init, size_t nb_cycle, size_t max, Environnement* env, const Individu_fix* ind, const char* dbname)
 {
 	Afficher_Milieu(env);

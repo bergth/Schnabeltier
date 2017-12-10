@@ -2,11 +2,8 @@
 #include "utile.h"
 
 
-void creer_trait_continue(Destraits* tr, float min, float max, size_t inter, const char* nom)
+void creer_trait_continue(Destraits* tr, size_t inter, const char* nom)
 {
-    tr->cont = 1;
-    tr->max = max;
-    tr->min = min;
     tr->inter = inter;
     tr->nom = strdup(nom);
 }
@@ -15,10 +12,10 @@ void creer_individu_type(Destraits** trs, size_t* nb_traits)
 {
     size_t n = 4;
     *trs = calloc(sizeof(Destraits), n);
-    creer_trait_continue(*trs + 0,0,20,0,"poils");
-    creer_trait_continue(*trs + 1, 0, 10,4,"palmes");
-    creer_trait_continue(*trs + 2,0,0,3,"herbi");
-    creer_trait_continue(*trs + 3,0,0,2,"carni");
+    creer_trait_continue(*trs + 0,0,"poils");
+    creer_trait_continue(*trs + 1,4,"palmes");
+    creer_trait_continue(*trs + 2,3,"herbi");
+    creer_trait_continue(*trs + 3,2,"carni");
     *nb_traits = n;
 }
 
@@ -40,7 +37,7 @@ Individu* creer_individu_vals(size_t n, const Individu_fix* ind)
 }
 
 
-Individu* creer_individu_random(const Destraits* dtrs, size_t n)
+Individu* creer_individu_random(size_t n)
 {
     Individu* new = calloc(sizeof(Individu),1);
     new->generation = 0;
@@ -49,14 +46,7 @@ Individu* creer_individu_random(const Destraits* dtrs, size_t n)
     for(size_t i = 0; i < n; i++)
     {
         Traits* tr = new->trs + i;
-        if(dtrs[i].cont)
-        {
-            tr->coef = (float)rand_ab(0,1000)/(float)1000;
-        }
-        else
-        {
-            assert(0);
-        }
+        tr->coef = (float)rand_ab(0,1000)/(float)1000;
     }
     return new;
 }
@@ -76,14 +66,8 @@ void afficher_individu(const Individu * ind, const Destraits* dtrs, size_t n)
     for(size_t i = 0; i < n; i++)
     {
         const Traits* tr = ind->trs + i;
-        if(dtrs[i].cont)
-        {
-            printf("[%s]: [%f]\n", dtrs[i].nom, tr->coef);
-        }
-        else
-        {
-            assert(0);
-        }
+        printf("[%s]: [%f]\n", dtrs[i].nom, tr->coef);
+
     }
     printf("[FIN INDIVIDU]-------------------------------\n");
 }

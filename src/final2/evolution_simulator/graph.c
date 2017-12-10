@@ -67,8 +67,8 @@ void child_born(graph* g, size_t par1, size_t par2, int gen)
         fprintf(stderr, "Erreur, graph max atteind\n");
         exit(EXIT_FAILURE);
     }
-    g->idTable[g->order].ind = croisement(g->idTable[par1].ind, g->idTable[par2].ind, g->trs, g->nb_traits, gen);
-    mutation(g->idTable[g->order].ind,g->trs,g->nb_traits);
+    g->idTable[g->order].ind = croisement(g->idTable[par1].ind, g->idTable[par2].ind, g->nb_traits, gen);
+    mutation(g->idTable[g->order].ind,g->nb_traits);
     g->idTable[g->order].child = NULL;
     g->idTable[g->order].parents = NULL;
     add_list(&(g->idTable[g->order].parents), par1);
@@ -88,7 +88,7 @@ void inits_nodes(graph* g, size_t n, const Individu_fix* ind)
         new->child = NULL;
         new->dead = 0;
         if(ind == NULL)
-            new->ind = creer_individu_random(g->trs, g->nb_traits);
+            new->ind = creer_individu_random(g->nb_traits);
         else
             new->ind = creer_individu_vals(g->nb_traits, ind);
         (g->order)++;
@@ -126,7 +126,7 @@ void mute_ind(graph* g)
     {
         if(g->idTable[i].dead == 0)
         {
-            mutation(g->idTable[i].ind, g->trs, g->nb_traits);
+            mutation(g->idTable[i].ind, g->nb_traits);
         }
     }
 }

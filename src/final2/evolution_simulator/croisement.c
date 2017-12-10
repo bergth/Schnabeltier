@@ -32,7 +32,7 @@ float croisement_continue(float trait1, float trait2, float coef)
     return resultat;
 }
 
-Individu* croisement(const Individu* ind1,const Individu* ind2,const Destraits* trs, size_t n_trs, int gen)
+Individu* croisement(const Individu* ind1,const Individu* ind2, size_t n_trs, int gen)
 {
     Individu* enfant = calloc(sizeof(Individu),1);
     enfant->generation = gen;
@@ -40,14 +40,7 @@ Individu* croisement(const Individu* ind1,const Individu* ind2,const Destraits* 
     enfant->trs = calloc(sizeof(Traits),n_trs);
     for(size_t i = 0; i < n_trs; i++)
     {
-        if(1 == trs[i].cont)
-        {
-            enfant->trs[i].coef = croisement_continue(ind1->trs[i].coef, ind2->trs[i].coef, enfant->independance);
-        }
-        else
-        {
-            assert(0);
-        }
+         enfant->trs[i].coef = croisement_continue(ind1->trs[i].coef, ind2->trs[i].coef, enfant->independance);
     }
     return enfant;
 }

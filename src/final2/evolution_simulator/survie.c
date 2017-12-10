@@ -31,20 +31,12 @@ int survie_globale(const Individu* ind, const Destraits* trs, size_t n_trs, cons
     for(size_t i = 0; i < n_trs; i++)
     {
         Traits* tr = ind->trs + i;
-        if(trs[i].cont)
-        {
-            n += 1;
-            pourcentage = survie_continue(tr->coef, env->caracts[trs[i].inter].coef);
-            rand = rand_ab(0,100);
-            if(rand > pourcentage*100)
-                return 1;
-        }
-        else
-        {
-            assert(0);
-        }
+        n += 1;
+        pourcentage = survie_continue(tr->coef, env->caracts[trs[i].inter].coef);
+        rand = rand_ab(0,100);
+        if(rand > pourcentage*100)
+            return 1;
     }
-    pourcentage = pourcentage / (float)n;
     return 0;
 }
 
