@@ -24,8 +24,7 @@ char* create_table_rq(const Destraits* trs,size_t n_trs);
 // i : index de l'individu
 // dead: individu mort où non.
 // retourne une chaine de caractère contenant la requette
-char* create_insert_rq(const Destraits* trs, const Individu* ind, size_t n, size_t i, int dead);
-
+char* create_insert_rq(const Destraits* trs, const Individu* ind, size_t n, size_t i, int dead, int par1, int par2);
 // insère un individu dans la base de donnée
 // db: la base de donnée
 // trs: Tableau de description e traits (Destraits)
@@ -33,7 +32,7 @@ char* create_insert_rq(const Destraits* trs, const Individu* ind, size_t n, size
 // n: nombre de trait
 // i : index de l'individu
 // dead: individu mort où non.
-void insert_value(sqlite3* db, const Destraits* trs, const Individu* ind, size_t n, size_t i, int dead);
+void insert_value(sqlite3* db, const Destraits* trs, const Individu* ind, size_t n, size_t i, int dead, int par1, int par2);
 
 // Créé la table de traits dans la base de donnée
 // db: base de donnée

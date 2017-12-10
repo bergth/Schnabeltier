@@ -1,3 +1,4 @@
+from queue import *
 import sqlite3
 import subprocess
 import os
@@ -8,6 +9,7 @@ from plotly.offline import init_notebook_mode, iplot
 import plotly.graph_objs as go
 import plotly.plotly as py
 from IPython.display import display, HTML
+from graphviz import Digraph
 from numpy import percentile
 
 '''
@@ -81,7 +83,21 @@ class vogel:
         self.sqlite = sql
         self.cursor = sql.cursor()
         self.cycle = cycle
-        
+    
+    def _get_parents_ind(self,i):
+        self.cursor.execute("SELECT PAR1,PAR2 FROM EVOLUTION WHERE ID = "+str(i))
+        res  = self.cursor.fetchall()
+        if res[0][0] == -1:
+            return None
+        else:
+            return res[0]
+
+    def _get_trait_ind(self,i, trait):
+        self.cursor.execute("SELECT "+trait+" FROM EVOLUTION WHERE ID = "+str(i))
+        res = res = self.cursor.fetchall()
+        return res[0][0]
+
+
     # retourne tableau d'individus mort triés par date de mort
     def _get_deads(self):
         L = []
@@ -115,6 +131,8 @@ class vogel:
         L.remove("DEAD")
         L.remove("GEN")
         L.remove("ID")
+        L.remove("PAR1")
+        L.remove("PAR2")
         return L
 
     # retourne la liste de traits (trait) par individus
@@ -235,3 +253,40 @@ class vogel:
             name = 'equart type'
         )
         iplot([trace0,trace1,trace2,trace3])
+
+
+    def draw_tree(self,i, trait, n = None):
+        if(n != None and n > 5):
+            print("n too big (<5)")
+            return None
+        q = Queue()
+        q.put(i)
+        q.put(None)
+        dot = Digraph(comment="tree based on "+str(i))
+        val = round(self._get_trait_ind(i,trait),3)
+        dot.node(str(i), str(val))
+        while(not (q.empty())):
+            cur = q.get()
+            if(cur == None):
+                if(n != None):
+                    if(n <= 0):
+                        break
+                    else:
+                        n -= 1
+                        print("## "+str(n)+" ##")
+                if(not(q.empty())):
+                    q.put(None)
+            else:
+                print(cur)
+                pars = self._get_parents_ind(cur)
+
+                if pars:
+                    q.put(pars[0])
+                    q.put(pars[1])
+                    val1 = round(self._get_trait_ind(pars[0],trait),3)
+                    val2 = round(self._get_trait_ind(pars[1],trait),3)
+                    dot.node(str(pars[0]),str(val1))
+                    dot.node(str(pars[1]),str(val2))
+                    dot.edge(str(pars[0]),str(cur))
+                    dot.edge(str(pars[1]),str(cur))
+        return dot
