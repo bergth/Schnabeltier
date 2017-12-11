@@ -1,0 +1,33 @@
+README: Comment lancer le projet:
+
+DEPENDANCES:
+Un compilateur C (de préférence gcc) est nécessaire
+
+Dépendance python (installable avec pip):
+jupyter notebook, graphviz, numpy, plotly
+
+$ pip3 install --upgrade pip
+$ pip3 install jupyter graphviz numpy plotly
+
+COMPILER ET LANCER LE PROJET (via GNU Make):
+
+$ make notebook
+
+Lance la compilation et le notebook jupyter.
+Un navigateur internet devrait s'ouvrir.
+Un fichier d'exemple (example.ipynb) est présent. 
+Toutes les commandes sont démontrées et expliquées
+/ ! \ Pensez à sauvegarder vos fichiers notebook (ipynb)
+ avant de relancer la commande (dossier renouvelé
+à chaque lancement)
+
+$ make all
+
+Compile seulement le programme C
+
+$ make clean
+
+Supprime tous les fichiers binaires compilé et l'environnement
+notebook précédement créé
+/ ! \ Pensez à sauvegarder vos fichiers notebook (ipynb)
+avant de lancer cette commance
