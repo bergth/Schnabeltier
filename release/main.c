@@ -63,13 +63,8 @@ void cycle(graph* G, const Environnement* env, size_t gen)
 // env: environnement
 // ind: individu fixe
 // dbname: chemin de la base de donnée
-void run(size_t init, size_t nb_cycle, size_t max, Environnement* env, const Individu_fix* ind, const char* dbname)
+int run(size_t init, size_t nb_cycle, size_t max, Environnement* env, const Individu_fix* ind, const char* dbname)
 {
-	Afficher_Milieu(env);
-	if(ind != NULL)
-		afficher_int_fix(ind);
-	else
-		printf("Individu créés aléatoirement\n");
 	graph* G = init_graph(max);
 	inits_nodes(G, init, ind);
 
@@ -77,15 +72,31 @@ void run(size_t init, size_t nb_cycle, size_t max, Environnement* env, const Ind
 	{
 		cycle(G,env,i);
 	}
+	if(G->order < nb_cycle * init)
+	{
+		printf("Erreur nombre d'individu: %ld\n", G->order);
+		free_graph(&G);
+		return 1;
+	}
+	Resultats *res = get_resultat(G);
+	if(res->sts->equart > 0.1)
+	{
+		printf("Erreur equart type: %ld\n", res->sts->equart);
+		free_resultats(&res);
+		free_graph(&G);
+		return 1;
+	}
 	printf("\nFin de la simulation\n");
 	printf("Nombre de cycles: [%ld]\n", nb_cycle);
 	printf("Nombre d'individus créés: [%ld]\n", G->order);
+	print_resultat(res);
+	free_resultats(&res);
 	printf("Writing database [%s], please wait...\n", dbname);
 	write_database(dbname,G);
 	printf("Done.\n");
 	free_graph(&G);
 	Liberer_env(&env);
-
+	return 0;
 }
 
 int main(int argc, char*argv[])
@@ -125,8 +136,24 @@ int main(int argc, char*argv[])
 	}
 	srand((unsigned int)time(NULL));
 	printf("Hello Schnabeltier !\n");
-
-    run(nb_departabs, nb_cycleabs, 1500000, env, ind, argv[3]);
+	Afficher_Milieu(env);
+	if(ind != NULL)
+		afficher_int_fix(ind);
+	else
+		printf("Individu créés aléatoirement\n");
+	int res = 1;
+	int essais = 0;
+	while(res && essais < 10)
+	{
+    	res = run(nb_departabs, nb_cycleabs, 1500000, env, ind, argv[3]);
+		essais++;
+	}
+	if(essais >= 10)
+	{
+		printf("Aucune simulation n'est cohérente\n");
+		printf("Vérifiez vos entrées\n");
+		printf("Aucune base de données créés\n");
+	}
 
 	printf("Good by Schnabeltier !\n");
 	return 0;
