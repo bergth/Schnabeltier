@@ -17,7 +17,7 @@ main: environnement.o individus.o utile.o survie.o croisement.o graph.o resultat
 	$(CC) $(FLAGS) main.c environnement.o individus.o utile.o survie.o croisement.o graph.o resultats.o mutation.o dbase.o   -o main
 
 notebook: main vogelbekdier.py example.ipynb
-	rm -rm notebook
+	rm -rf notebook
 	mkdir notebook
 	cp main notebook/
 	cp vogelbekdier.py notebook/
